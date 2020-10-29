@@ -1,0 +1,33 @@
+.contenedor {
+    height: 100vh;
+    width: 100vw;
+    background-color: #f1f1f1f1;
+    display: flex;
+    flex-direction: row;
+    font-size: 10px;
+    .container__left {
+        width: 50%;
+        background-image: url('https://stbcpzonasegura.viabcp.com/assets/img/HBK-login-fondo.jpg');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        display: flex;
+        flex-direction: column-reverse;
+        justify-content: space-between;
+    }
+    .container__right {
+        width: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+@media(max-width: 700px) {
+    .container__left {
+        display: none;
+    }
+    .container__right {
+        width: 100%;
+    }
+}

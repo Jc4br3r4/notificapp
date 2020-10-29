@@ -1,0 +1,64 @@
+.contenedor {
+    //flex-wrap: wrap;
+    font-size: 16px;
+    //align-content: stretch;
+    margin-bottom: 60px;
+    display: table-cell;
+    width: 100%;
+    padding: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.title {
+    color: #002D87;
+    font-size: 24px;
+    line-height: 1.33;
+}
+
+.form-log {
+    color: #002D87;
+    line-height: 1.33;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.tabla {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    &__item {
+        height: 40px;
+        width: 40px;
+        background-color: #f1f1f1;
+        border-radius: 4px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: black;
+        cursor: pointer;
+        margin: 2px;
+    }
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #ff7800;
+    border-color: #ff7800;
+}
+
+.btn-lg {
+    height: 40px;
+    padding: 0 16px;
+    font-size: 18px;
+    line-height: 38px;
+    border-radius: 20px;
+}

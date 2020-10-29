@@ -1,0 +1,53 @@
+version: '3.5'
+services:
+  db:
+    container_name: notificapp_db
+    image: postgres:11.6-alpine
+    restart: always
+    #    volumes:
+    #      - ./data:/var/lib/postgresql
+    #      - ./db/scripts:/docker-entrypoint-initdb.d
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_DB=${POSTGRES_DB}
+    networks:
+      - dockernet
+  web:
+    container_name: notificapp_web
+    build:
+      context: ./frontend
+    environment:
+      - NODE_ENV=${NODE_ENV}
+    volumes:
+      - ./frontend:/frontend:rw
+    depends_on:
+        - api
+    ports:
+      - '4200:4200'
+    networks:
+      - dockernet
+  api:
+    container_name: notificapp_api
+    build:
+      context: ./backend
+    environment:
+      - NODE_ENV=${NODE_ENV}
+    volumes:
+      - ./backend:/backend:rw
+    depends_on:
+      - db
+    ports:
+      - '3000:3000'
+    networks:
+      - dockernet
+
+networks:
+  dockernet:
+    external: true
+
+volumes:
+  data:
+    driver: local
