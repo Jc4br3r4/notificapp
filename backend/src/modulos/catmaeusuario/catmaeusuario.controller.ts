@@ -3,16 +3,16 @@ import { UsuarioService } from './catmaeusuario.service';
 import { UsuarioDTO } from './catmaeusuario.dto';
 import { LoginDTO } from './catmaeusuario.login';
 
-@Controller('usuario')
+@Controller()
 export class UsuarioController {
 
   constructor(private readonly userService: UsuarioService) {}
-  @Post()
+  @Post('login')
   login(@Body() data: LoginDTO) {
     return this.userService.login(data);
   }
 
-  @Post()
+  @Post('register')
   register(@Body() data: UsuarioDTO) {
     return this.userService.register(data);
   }

@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Usuario } from './catmaeusuario.entity';
@@ -18,33 +18,41 @@ export class UsuarioService {
   ) {}
 
   async login(data) {
-    const persona = this.personaRepository.findOne({
-      where: { numDoc: data.numDoc }
+    const persona = await this.personaRepository.findOne({
+      where: {
+          tipoDoc: data.tipo,
+          numDoc: data.documento
+      }
     })
 
     if (!persona) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }
 
-    const user = this.userRepository.findOne({
-      where: { claveWeb: data.claveWeb, persona }
+    const user = await this.userRepository.findOne({
+      relations: ['persona'],
+      where: { persona }
     })
 
-    if (!user) {
-      throw new HttpException('Password Error', HttpStatus.NOT_FOUND);
+    if (!user || !(await user.comparePassword(data.password))) {
+      throw new HttpException('Nª Documento/Clave Web invalido', HttpStatus.BAD_REQUEST);
     }
 
-    return true
+    return user.toResponseObject();
   }
 
   async register(data) {
 
-    const persona = this.personaRepository.findOne({
-      where: { numDoc: data.numDoc }
+    const persona = await this.personaRepository.findOne({
+      where: { numDoc: data.documento, tipoDoc: data.tipo }
     })
 
-    if (persona) {
-      throw new HttpException('Cannot Register', HttpStatus.NOT_FOUND);
+    const userExist = await this.userRepository.findOne({
+      where: { persona }
+    })
+
+    if (userExist) {
+      throw new HttpException('Usuario ya existe', HttpStatus.BAD_REQUEST);
     }
 
     const cuenta = this.cuentaRepository.findOne({
@@ -52,26 +60,16 @@ export class UsuarioService {
     })
 
     if (!cuenta) {
-      throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+      throw new HttpException('Nª de Tarjeta no existe', HttpStatus.BAD_REQUEST);
     }
 
-    //* Guardar personas *//
-    const nPersona = await this.personaRepository.create({
-      numDoc: data.numDoc,
-      nombres: data.nombres,
-      apeMaterno: data.apeMaterno,
-      apePaterno: data.apePaterno,
-      fechNac: data.fechNac,
-      tipoDoc: data.tipoDoc
-    });
-
-    await this.personaRepository.save(nPersona);
-
     //* Guardar usuario web *//
-    await this.userRepository.create({
-      claveWeb: data.claveWeb,
-      persona: nPersona
+    const usuario = await this.userRepository.create({
+      claveWeb: data.password,
+      persona
     })
+
+    await this.userRepository.save(usuario);
 
     return true;
   }

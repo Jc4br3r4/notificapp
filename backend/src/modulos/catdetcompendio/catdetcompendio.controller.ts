@@ -6,7 +6,7 @@ import { DetalleCompendioDTO } from './catdetcompendio.dto';
 export class DetalleController {
   constructor(private readonly detalleService: DetalleService) {}
 
-  @Get()
+  @Get('table/:compendio')
   find(@Param('compendio') compendio: number) {
     return this.detalleService.find(compendio);
   }

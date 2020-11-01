@@ -12,7 +12,7 @@ export class DetalleService {
   async find(compendio: number): Promise<DetalleCompendio[]> {
     return await this.detalleRepository.find({
       where: { compendio },
-      order: { nombre: 'ASC'}
+      order: { id: 'ASC'}
     });
   }
 

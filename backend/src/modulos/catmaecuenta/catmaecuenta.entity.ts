@@ -13,12 +13,12 @@ export class Cuenta {
   id: number;
 
   @Column()
-  tarjeta: number;
+  tarjeta: string;
 
   @Column()
   clave: number;
 
-  @Column({ type: 'decimal'})
+  @Column()
   saldo: number;
 
   @ManyToOne(() => Persona, (persona) => persona.id, {

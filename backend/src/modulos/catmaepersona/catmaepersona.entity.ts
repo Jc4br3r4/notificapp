@@ -13,11 +13,14 @@ export class Persona {
   @Column({ length: 50, nullable: true })
   nombres: string;
 
+  @Column({ length: 50, nullable: true, name: 'ape_paterno'  })
+  apePaterno: string;
+
   @Column({ length: 50, nullable: true, name: 'ape_materno' })
   apeMaterno: string
 
-  @Column({ length: 50, nullable: true, name: 'ape_paterno'  })
-  apePaterno: string;
+  @Column({ nullable: true})
+  email: string
 
   @ManyToOne(() => DetalleCompendio, (detalle) => detalle.id, {
     nullable: true,

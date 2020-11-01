@@ -8,7 +8,7 @@ RUN npm install yarn
 RUN apk update && apk upgrade && \
   apk add --no-cache bash git openssh gcc musl-dev make g++ python
 
-RUN yarn global add  @angular/cli@9.1.12
+RUN yarn global add  @angular/cli
 
 RUN mkdir ./frontend
 COPY . ./frontend

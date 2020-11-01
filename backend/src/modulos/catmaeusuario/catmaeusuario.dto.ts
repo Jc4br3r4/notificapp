@@ -1,11 +1,7 @@
 export class UsuarioDTO {
   tarjeta: number;
   clave: number;
-  numDoc: number;
-  nombres: string;
-  apeMaterno: string;
-  apePaterno: string;
-  fechNac: string;
-  tipoDoc: string;
+  documento: number;
+  tipo: string;
   claveWeb: number
 }
