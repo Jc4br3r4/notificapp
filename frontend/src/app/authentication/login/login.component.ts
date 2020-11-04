@@ -56,4 +56,7 @@ export class LoginComponent implements OnInit {
       .login(usuario, this.form.value.recuerdame)
       .subscribe(resp => this.router.navigate(['/']));
   }
+  onlynumber($event) {
+    return $event.charCode >= 48 && $event.charCode <= 57
+  }
 }

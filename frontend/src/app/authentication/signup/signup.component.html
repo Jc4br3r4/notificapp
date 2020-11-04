@@ -1,82 +1,181 @@
-<div class="auth-wrapper d-flex no-block justify-content-center align-items-center"
-     style="background:url(assets/images/background/login-register.jpg) no-repeat center center;">
-  <div class="auth-box on-sidebar m-3 m-md-0">
-    <div>
-      <div class="logo">
-        <span class="db"><img src="assets/images/logo-icon.png" alt="logo"/></span>
-        <h5 class="font-medium m-b-20">Sign Up to Admin</h5>
-      </div>
-      <!-- Form -->
-      <div class="row">
-        <div class="col-12">
-          <form class="form-horizontal m-t-20"  [formGroup]="form" (ngSubmit)="registrarUsuario()" autocomplete="off">
-            <div class="form-group row ">
-              <div class="col-12 ">
-                <input formControlName="tarjeta" name="tarjeta" class="form-control" type="text" required placeholder="Nª Tarjeta"
-                  [ngClass]="{'is-invalid': form.get('tarjeta').errors?.required && form.get('tarjeta').touched || form.get('tarjeta').errors?.minlength }"
-                  [maxLength]="16"
-                >
-                <div class="invalid-feedback">
-                  <span *ngIf="form.get('tarjeta').errors?.required">Campo requerido</span>
-
-                  <span *ngIf="form.get('tarjeta').errors?.minlength">Ingrese los 16 digitos de su tarjeta</span>
-                </div>
-              </div>
+<div class="auth-wrapper">
+    <div class="container__left">
+        <div class="footer-text-container">
+            <p class="footer-text">
+                © 2020 VIABCP.com | Todos los derechos reservados
+            </p>
+        </div>
+        <div class="footer-logo-container">
+            <img alt="bcp-logo" class="footer-logo" src="https://stbcpzonasegura.viabcp.com/assets/img/logo.svg" />
+        </div>
+    </div>
+    <div class="auth-box on-sidebar m-3 m-md-0">
+        <div>
+            <div class="logo">
+                <span class="db"><img
+            src="https://bolsadetrabajo.laborum.pe/bcp/static/images/logo.png"
+            alt="logo"
+        /></span>
+                <h5 class="font-medium m-b-20">
+                    Genera tu clave de internet ingresando los datos
+                </h5>
             </div>
-            <div class="form-group row ">
-              <div class="col-12 ">
-                <input formControlName="clave" name="clave" class="form-control" type="password" required placeholder="Clave de 4 dígitos (la misma del cajero)"
-                       [ngClass]="{'is-invalid': form.get('clave').errors?.required && form.get('clave').touched || form.get('clave').errors?.minlength }"
-                       [maxLength]="4"
-                >
-                <div class="invalid-feedback">
-                  <span *ngIf="form.get('clave').errors?.required">Campo requerido</span>
-                  <span *ngIf="form.get('clave').errors?.minlength">Ingrese su clave del cajero 4 digitos</span>
+            <!-- Form -->
+            <div class="row">
+                <div class="col-12">
+                    <form class="form-horizontal m-t-20" [formGroup]="form" (ngSubmit)="registrarUsuario()" autocomplete="off">
+                        <div class="form-group row">
+                            <div class="col-12">
+                                <input formControlName="tarjeta" name="tarjeta" class="form-control" type="text" (keypress)="onlynumber($event)" minlength="16" maxlength="16" required placeholder="Nª Tarjeta" [ngClass]="{
+                    'is-invalid':
+                      (form.get('tarjeta').errors?.required &&
+                        form.get('tarjeta').touched) ||
+                      form.get('tarjeta').errors?.minlength
+                  }" [maxLength]="16" />
+                                <div class="invalid-feedback">
+                                    <span *ngIf="form.get('tarjeta').errors?.required">Campo requerido</span
+                  >
+
+                  <span *ngIf="form.get('tarjeta').errors?.minlength"
+                    >Ingrese los 16 digitos de su tarjeta</span
+                  >
                 </div>
               </div>
             </div>
             <div class="form-group row">
-              <div class="col-4 ">
-                <select formControlName="tipo" name="tipo" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-                  <option *ngFor="let tipos of tiposDocumentos" [value]="tipos.id">{{ tipos.nombre }}</option>
+              <div class="col-12">
+                <input
+                  formControlName="clave"
+                  name="clave"
+                  class="form-control"
+                  type="password"
+                  (keypress)="onlynumber($event)"
+                  required
+                  placeholder="Clave de 4 dígitos (la misma del cajero)"
+                  [ngClass]="{
+                    'is-invalid':
+                      (form.get('clave').errors?.required &&
+                        form.get('clave').touched) ||
+                      form.get('clave').errors?.minlength
+                  }"
+                  [maxLength]="4"
+                />
+                <div class="invalid-feedback">
+                  <span *ngIf="form.get('clave').errors?.required"
+                    >Campo requerido</span
+                  >
+                  <span *ngIf="form.get('clave').errors?.minlength"
+                    >Ingrese su clave del cajero 4 digitos</span
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-4">
+                <select
+                  formControlName="tipo"
+                  name="tipo"
+                  class="custom-select mr-sm-2"
+                  id="inlineFormCustomSelect"
+                >
+                  <option
+                    *ngFor="let tipos of tiposDocumentos"
+                    [value]="tipos.id"
+                  >
+                    {{ tipos.nombre }}
+                  </option>
                 </select>
               </div>
-              <div class="col-8 ">
-                <input formControlName="documento" name="documento" class="form-control" type="text" required placeholder="Nª Documento"
-                 [ngClass]="{'is-invalid': form.get('documento').errors?.required && form.get('documento').touched || form.get('documento').errors?.minlength }"
-                >
+              <div class="col-8">
+                <input
+                  formControlName="documento"
+                  name="documento"
+                  class="form-control"
+                  type="text"
+                  (keypress)="onlynumber($event)"
+                  required
+                  placeholder="Nª Documento"
+                  maxlength="8"
+                  minlength="8"
+                  [ngClass]="{
+                    'is-invalid':
+                      (form.get('documento').errors?.required &&
+                        form.get('documento').touched) ||
+                      form.get('documento').errors?.minlength
+                  }"
+                />
                 <div class="invalid-feedback">
-                  <span *ngIf="form.get('documento').errors?.required">Campo requerido</span>
-                  <span *ngIf="form.get('documento').errors?.minlength">Minimo 8 digitos</span>
+                  <span *ngIf="form.get('documento').errors?.required"
+                    >Campo requerido</span
+                  >
+                  <span *ngIf="form.get('documento').errors?.minlength"
+                    >Minimo 8 digitos</span
+                  >
                 </div>
               </div>
             </div>
             <div class="form-group row">
-              <div class="col-12 ">
-                <input formControlName="password" name="password" class="form-control" type="password" required placeholder="Clave Digital">
+              <div class="col-12">
+                <input
+                  formControlName="password"
+                  name="password"
+                  class="form-control"
+                  type="password"
+                  minlength="6"
+                  maxlength="6"
+                  (keypress)="onlynumber($event)"
+                  required
+                  placeholder="Clave Digital"
+                />
               </div>
             </div>
             <div class="form-group row">
-              <div class="col-12 ">
-                <input formControlName="password2" name="password2" class="form-control" type="password" required placeholder="Confirmar Clave Digital">
+              <div class="col-12">
+                <input
+                  formControlName="password2"
+                  name="password2"
+                  class="form-control"
+                  type="password"
+                  minlength="6"
+                  maxlength="6"
+                  (keypress)="onlynumber($event)"
+                  required
+                  placeholder="Confirmar Clave Digital"
+                />
               </div>
             </div>
             <div class="form-group row">
-              <div class="col-md-12 ">
+              <div class="col-md-12">
                 <div class="custom-control custom-checkbox">
-                  <input formControlName="condiciones" name="condiciones" type="checkbox" class="custom-control-input" id="customCheck1">
-                  <label class="custom-control-label" for="customCheck1">Acepto los <a href="javascript:void(0)">Terminos y Condiciones</a></label>
+                  <input
+                    formControlName="condiciones"
+                    name="condiciones"
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="customCheck1"
+                  />
+                  <label class="custom-control-label" for="customCheck1"
+                    >Acepto los
+                    <a href="javascript:void(0)" class="link"
+                      >Terminos y Condiciones</a
+                    ></label
+                  >
                 </div>
               </div>
             </div>
             <div class="form-group text-center">
               <div class="col-xs-12 p-b-20">
-                <button class="btn btn-block btn-lg btn-info" type="submit">Registrarme</button>
+                <button class="btn btn-block btn-lg btn-info" type="submit">
+                  Registrarme
+                </button>
               </div>
             </div>
-            <div class="form-group m-b-0 m-t-10 ">
-              <div class="col-sm-12 text-center ">
-                Ya tienes cuenta? <a  class="text-info m-l-5 " [routerLink]="['/login']"><b>Ingresar</b></a>
+            <div class="form-group m-b-0 m-t-10">
+              <div class="col-sm-12 text-center">
+                Ya tienes cuenta?
+                <a class="text-info m-l-5" [routerLink]="['/login']"
+                  ><b class="link">Ingresar</b></a
+                >
               </div>
             </div>
           </form>
