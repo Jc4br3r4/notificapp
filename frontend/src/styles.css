@@ -1,3 +1,46 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700');
+
+
+.elevation-1 {
+  box-shadow: 0 1px 1px 1px rgb(0 0 0 / 25%);
+  border: .5px solid #ffffff;
+  border-radius: 10px;
+}
+
+.elevation-2 {
+  box-shadow: 0 2px 2px 2px rgb(0 0 0 / 25%);
+  border: .5px solid #ffffff;
+  border-radius: 10px;
+}
+
+.elevation-3 {
+  box-shadow: 0 3px 3px 3px rgb(0 0 0 / 25%);
+  border: .5px solid #ffffff;
+  border-radius: 10px;
+}
+
+.elevation-4 {
+  box-shadow: 0 4px 4px 4px rgb(0 0 0 / 25%);
+  border: .5px solid #ffffff;
+  border-radius: 10px;
+}
+
+.elevation-5 {
+  box-shadow: 0 5px 5px 5px rgb(0 0 0 / 25%);
+  border: .5px solid #ffffff;
+  border-radius: 10px;
+}
+
+.primary {
+  color: #004edc;
+}
+
+.secondary {
+  color: #fa6f33;
+}
+
+.nav-tabs .nav-link.active{
+  border-color: #ffffff #ffffff #e02020 !important;
+}

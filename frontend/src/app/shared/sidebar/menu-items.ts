@@ -2,6 +2,26 @@ import { RouteInfo } from './sidebar.metadata';
 
 export const ROUTES: RouteInfo[] = [
     {
+      path: '/ver-saldo',
+      title: 'Ver Saldo',
+      icon: 'mdi mdi-adjust',
+      class: '',
+      label: '',
+      labelClass: '',
+      extralink: false,
+      submenu: []
+    },
+    {
+      path: '/transacciones',
+      title: 'Transacciones',
+      icon: 'mdi mdi-adjust',
+      class: '',
+      label: '',
+      labelClass: '',
+      extralink: false,
+      submenu: []
+    },
+    {
         path: '',
         title: 'Personal',
         icon: 'mdi mdi-dots-horizontal',

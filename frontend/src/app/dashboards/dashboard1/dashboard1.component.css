@@ -10,3 +10,43 @@
 .ct-series-a .ct-slice-donut {
   stroke: rgb(30, 136, 229);
 }
+
+.credit-card {
+  margin-top: 3rem;
+  padding: 0;
+  cursor: pointer;
+}
+
+.favorites {
+  cursor: pointer;
+  padding: .75rem;
+  margin: 0.5rem 0;
+}
+
+.btn-favorite {
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  cursor: none;
+}
+.btn-toolbar {
+  background: #eaecf5;
+}
+
+.btn-toolbar i {
+  transform: rotate(-45deg);
+}
+
+.btn-plus {
+  background: #fa6f33;
+}
+
+.btn-plus i {
+  color: #ffffff;
+}
+
+.favorite-card {
+  min-height: 70vh;
+}
