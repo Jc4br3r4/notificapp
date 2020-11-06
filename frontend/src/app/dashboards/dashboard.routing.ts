@@ -7,7 +7,7 @@ export const DashboardRoutes: Routes = [
     path: '',
     children: [
       {
-        path: '',
+        path: 'main',
         component: Dashboard1Component,
         data: {
           title: 'Render BCP',
