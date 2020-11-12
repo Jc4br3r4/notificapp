@@ -8,8 +8,8 @@
               <span class="hide-menu">{{ nombre }}</span>
             </a>
             <ul aria-expanded="false" class="collapse" [class.in]="showMenu === 'user'">
-                <li><a class="sidebar-link p-0">Mi Perfil</a></li>
-                <li><a class="sidebar-link p-0">Configuracion</a></li>
+                <li><a class="sidebar-link p-0" [routerLink]="['/perfil']">Mi Perfil</a></li>
+                <li><a class="sidebar-link p-0" [routerLink]="['/configuracion']">Configuracion</a></li>
                 <li><a class="sidebar-link p-0" (click)="logout()">Salir</a></li>
             </ul>
         </li>
