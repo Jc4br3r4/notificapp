@@ -82,4 +82,7 @@ export class SignupComponent implements OnInit {
       .register(usuario)
       .subscribe(resp => this.router.navigate(['/authentication/login']));
   }
+  onlynumber($event) {
+    return $event.charCode >= 48 && $event.charCode <= 57
+  }
 }
