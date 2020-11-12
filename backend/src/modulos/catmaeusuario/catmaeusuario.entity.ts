@@ -53,7 +53,7 @@ export class Usuario {
   private get token() {
     const { id, persona } = this;
 
-    return jwt.sign({ id, persona }, process.env.SECRET, {
+    return jwt.sign({ id, persona },'AIzaSyCS3cfvhW5LKjXE8VgBkWcX5NmfzQzG6_c', {
       expiresIn: '7d',
     });
   }
