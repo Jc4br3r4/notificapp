@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import {PerfilComponent} from './perfil/perfil.component';
 import {ConfiguracionComponent} from './configuracion/configuracion.component';
+import {SaldoComponent} from './saldos/saldo.component';
 
 export const PagesRoutes: Routes = [
   {
@@ -20,6 +21,14 @@ export const PagesRoutes: Routes = [
         data: {
           title: 'Configuracion',
           urls: [{ title: 'Persona', url: '/configuracion' }, { title: 'Configuracion' }]
+        }
+      },
+      {
+        path: 'detalle-de-tu-cuenta/:id',
+        component: SaldoComponent,
+        data: {
+          title: 'Ahorro Soles',
+          urls: [{ title: 'Cuenta', url: '/detalle-de-tu-cuenta' }, { title: 'Saldos' }]
         }
       },
     ]

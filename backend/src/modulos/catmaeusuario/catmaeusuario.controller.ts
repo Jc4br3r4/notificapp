@@ -16,4 +16,9 @@ export class UsuarioController {
   register(@Body() data: UsuarioDTO) {
     return this.userService.register(data);
   }
+
+  @Post('cambiar-email')
+  cambiarEmail(@Body() data: any) {
+    return this.userService.cambiarEmail(data);
+  }
 }

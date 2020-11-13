@@ -62,24 +62,12 @@ export class UsuarioService {
   }
 
   guardarStorage(token: string, usuario: UsuarioDTO) {
-    localStorage.setItem('token' , token);
+
     localStorage.setItem('usuario', JSON.stringify(usuario));
-
     this.usuario = usuario;
-    this.token = token;
-  }
 
-  crearUsuario( usuario: Usuario) {
-    const url = this.URL_SERVICIO + '/usuarios';
-    return this.http.post( url, usuario)
-      .pipe(
-        map( (res: any) => {
-          // swal('Usuario creado', usuario.email , 'success');
-        }), catchError( err => {
-          // console.log(err.error.mensaje);
-          // swal(err.error.mensaje , err.error.errors.message, 'error');
-          return throwError(err);
-        }));
+    localStorage.setItem('token' , token);
+    this.token = token;
   }
 
   actualizarUsuario( usuario: Usuario) {
@@ -163,5 +151,21 @@ export class UsuarioService {
           Swal.fire('Ah ocurrido un error!', err.error.message, 'error');
           return throwError(err);
         }));
+  }
+
+  actualizarEmail(cambiarEmail: any) {
+    const url = this.URL_SERVICIO + '/cambiar-email'
+
+    return this.http.post( url, cambiarEmail)
+      .pipe(
+        map((res: any) => {
+          this.guardarStorage(res.token, res.persona);
+          Swal.fire('Su email a sido actualizado a:', res.persona.email , 'success');
+          return true
+        }) , catchError( (err) => {
+          Swal.fire('Ah ocurrido un error!', err.error.message, 'error');
+          return throwError(err);
+        })
+      )
   }
 }

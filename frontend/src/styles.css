@@ -44,3 +44,30 @@
 .nav-tabs .nav-link.active{
   border-color: #ffffff #ffffff #e02020 !important;
 }
+
+
+.form-group label {
+  color: #012d74;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: .4px;
+  margin-bottom: 0;
+}
+
+.seed-enabled{
+  border-radius: 5px;
+  border: 1px solid;
+  border-color: #e2e2e2;
+  position: inherit;
+}
+
+/*div img {*/
+/*  width: 49px;*/
+/*  height: 49px;*/
+/*  cursor: pointer;*/
+/*}*/
+
+/*.separator{*/
+/*  margin-bottom: 5px;*/
+/*}*/

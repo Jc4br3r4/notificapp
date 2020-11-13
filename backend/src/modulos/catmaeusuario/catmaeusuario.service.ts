@@ -73,4 +73,31 @@ export class UsuarioService {
 
     return true;
   }
+
+  async cambiarEmail(data) {
+
+    const persona = await this.personaRepository.findOne({ id: data.id });
+
+    if (!persona) {
+      throw new HttpException('Persona no encontrada', HttpStatus.NOT_FOUND);
+    }
+
+    let user = await this.userRepository.findOne({
+      relations: ['persona'],
+      where: { persona }
+    })
+
+    if (!user || !(await user.comparePassword(data.password))) {
+      throw new HttpException('Clave Web invalida verifique', HttpStatus.BAD_REQUEST);
+    }
+
+    await this.personaRepository.update({id: data.id},  { email: data.email })
+
+    user = await this.userRepository.findOne({
+      relations: ['persona'],
+      where: { persona }
+    })
+
+    return user.toResponseObject();
+  }
 }

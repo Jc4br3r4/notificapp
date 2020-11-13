@@ -15,20 +15,88 @@
               tu correo para poder informarte sobre
               <strong> Estados de Cuenta, fraudes, alertas, constancias, resúmenes y otras operaciones</strong>
               en Banca por Internet y Banca Móvil.</p>
-              <!---->
-              <p class="ng-star-inserted">Tu correo de constancia actual es: <strong >jaccabrerac@gmail.com</strong></p>
+              <p class="ng-star-inserted">Tu correo de constancia actual es: <strong>{{ _usuarioService.usuario.email }}</strong></p>
           </div>
         </div>
         <div class="row personal-data">
           <div class="col-12 col-md-6 mb-4">
             <div class="label">Nombre</div>
-            <div class="text data-name">cabrera callupe jorge armando</div>
+            <div class="text data-name">{{ _usuarioService.usuario.nombres }} {{ _usuarioService.usuario.apePaterno}} {{ _usuarioService.usuario.apeMaterno }}</div>
           </div>
           <div class="col-12 col-md-6 mb-4">
             <div class="label">DNI</div>
-            <div class="text">72429871</div>
+            <div class="text">{{ _usuarioService.usuario.numDoc }}</div>
           </div>
         </div>
+        <form novalidate="" class="text-center" [formGroup]="form" (ngSubmit)="cambiaCorreo()">
+          <div class="row">
+            <div class="col-12 col-md-6 mb-4">
+                <div  class="form-group form-group--relative form-group--stacked active text-box-wrapper">
+                  <label for="f-email">
+                    Correo
+                  </label>
+                  <input
+                    id="f-email"
+                    class="form-control"
+                    maxlength="50"
+                    autocomplete="off"
+                    type="email"
+                    formControlName="email1"
+                    placeholder="Ingrese correo">
+                  <div class="invalid-feedback ng-star-inserted">
+                  Este campo es requerido.
+                  </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 mb-4">
+                <div class="form-group form-group--relative form-group--stacked active text-box-wrapper">
+                  <label for="v-email">
+                    Confirmar correo
+                  </label>
+                <input id="v-email"
+                       class="form-control"
+                       maxlength="50"
+                       autocomplete="off"
+                       type="email"
+                       formControlName="email2"
+                       [ngClass]="{'is-invalid':(form.get('email2').errors?.required && form.get('email2').touched)
+                       || form.get('email2').errors?.email
+                       || form.errors?.sonIguales}"
+                       placeholder="Vuelve a ingresar el correo">
+                  <div class="invalid-feedback">
+                    <span *ngIf="form.get('email2').errors?.required">Campo requerido</span>
+                    <span *ngIf="form.get('email2').errors?.email">Debe ser de tipo email</span>
+                    <span *ngIf="form.errors?.sonIguales">Los email deben ser iguales</span>
+                  </div>
+                </div>
+            </div>
+          </div>
+          <div class="container-keypad ng-star-inserted">
+            <p class="center ng-star-inserted">Para confirmar tus cambios, ingresa la Clave Digital Token</p>
+          <div class="d-flex justify-content-center">
+            <div class="col-12 col-md-6 mb-4">
+              <input
+                name="password"
+                type="password"
+                class="form-control"
+                placeholder="Clave web"
+                aria-label="Password"
+                formControlName="password"
+                aria-describedby="basic-addon1"
+                minlength="6"
+                maxlength="6"
+              />
+            </div>
+          </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-md-12 mt-4">
+              <button type="submit" class="btn-next btn btn-primary">
+                Finalizar
+              </button>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
   </div>
