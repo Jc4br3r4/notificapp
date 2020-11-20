@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {UsuarioService} from "../../providers/usuario/usuario.service";
 import {ActivatedRoute} from "@angular/router";
+import {CuentaService} from '../../providers/cuenta/cuenta.service';
+import {Cuenta} from '../../models/cuenta';
 
 @Component({
   selector: 'app-saldos',
@@ -9,12 +10,19 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class SaldoComponent implements OnInit {
 
-  constructor(public _usuarioService: UsuarioService,
-              private route: ActivatedRoute) {}
+  cuenta: Cuenta;
+
+  constructor(public _cuentaService: CuentaService,
+              private route: ActivatedRoute) {
+
+    const id = parseInt(this.route.snapshot.paramMap.get('id'));
+  }
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    console.log(id);
+    const id = parseInt(this.route.snapshot.paramMap.get('id'));
+    this._cuentaService.cuenta(id).subscribe( (cuenta) => {
+      this.cuenta = cuenta;
+    })
   }
 
 }

@@ -100,4 +100,14 @@ export class UsuarioService {
 
     return user.toResponseObject();
   }
+
+  async read(id: number) {
+    const user = await this.userRepository.findOne({
+      where: { persona: {
+        id
+        } },
+      relations: ['persona']
+    });
+    return user.persona;
+  }
 }

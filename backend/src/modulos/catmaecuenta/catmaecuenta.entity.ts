@@ -15,6 +15,12 @@ export class Cuenta {
   @Column()
   tarjeta: string;
 
+  @Column({ name: 'num_cuenta', unique: true})
+  ncuenta: string;
+
+  @Column({ unique: true })
+  cci: string;
+
   @Column()
   clave: number;
 
@@ -33,6 +39,12 @@ export class Cuenta {
   @JoinColumn({ name: 'tipotarjeta_id' })
   tipoTarjeta: DetalleCompendio;
 
+
+  @ManyToOne(() => DetalleCompendio, (detalle) => detalle.id, {
+    nullable: true,
+  })
+  @JoinColumn({ name: 'moneda_id' })
+  moneda: DetalleCompendio;
 
   @CreateDateColumn({ name: 'created_at'})
   createdAt: Date;

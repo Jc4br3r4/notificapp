@@ -19,8 +19,8 @@ export class NavigationComponent implements OnInit {
 
   public config: PerfectScrollbarConfigInterface = {};
 
-  nombre: string;
-  email: string;
+  nombre: string = '';
+  email: string = '';
 
   constructor(public _usuarioService: UsuarioService) {
     this.nombre = (this._usuarioService.usuario.nombres).toString().split(' ')[0] + ' ' + this._usuarioService.usuario.apePaterno;

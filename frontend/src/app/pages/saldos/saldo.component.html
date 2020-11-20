@@ -16,10 +16,10 @@
                       <span class="small-currency">
                         S/
                       </span>
-                            <span class="font-bold-alike"> 0.01</span>
+                            <span class="font-bold-alike">{{ cuenta.saldo | currency: ' '}}</span>
                           </p>
                           <span class="font-normal">Saldo contable
-                        <span class="font-bold-alike ml-2">S/  0.01</span>
+                        <span class="font-bold-alike ml-2">{{ cuenta.saldo | currency: 'S/. '}}</span>
                       </span>
                         </div>
                       </div>
@@ -27,14 +27,14 @@
                       <div class="col-md-6 col-lg-4 product-detail-card-container account-number">
                         <p class="blue-title-card">Número de Cuenta</p>
                         <p class="single-text">
-                          <span class="font-bold-alike">191-91205802-0-71</span>
+                          <span class="font-bold-alike">{{ cuenta.ncuenta }}</span>
                         </p>
                       </div>
 
                       <div class="col-md-6 col-lg-4 product-detail-card-container account-number">
                         <p class="blue-title-card">Código de Cuenta Interbancaria</p>
                         <p class="single-text">
-                          <span class="font-bold-alike">00219119120580207155</span>
+                          <span class="font-bold-alike">{{ cuenta.cci }}</span>
                         </p>
                       </div>
                     </div>

@@ -4,7 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import {
   AuthGuard,
-  CompendioService, CustomAdapter, LoginGuard,
+  CompendioService, CuentaService, CustomAdapter, LoginGuard,
   UsuarioService,
 } from './service.index';
 
@@ -19,7 +19,8 @@ import {
     CompendioService,
     CustomAdapter,
     LoginGuard,
-    AuthGuard
+    AuthGuard,
+    CuentaService
   ]
 })
 export class ServiceModule { }

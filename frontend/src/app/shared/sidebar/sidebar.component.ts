@@ -1,10 +1,9 @@
-import { Component, AfterViewInit, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ROUTES } from './menu-items';
 import { RouteInfo } from './sidebar.metadata';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {UsuarioService} from '../../providers/usuario/usuario.service';
-import { UsuarioDTO} from '../../models/usuario.model';
 declare var $: any;
 
 @Component({
@@ -14,7 +13,7 @@ declare var $: any;
 export class SidebarComponent implements OnInit {
   showMenu = '';
   showSubMenu = '';
-  nombre: string;
+  nombre: string = '';
   public sidebarnavItems: RouteInfo[] = [];
   // this is for the open close
   addExpandClass(element: any) {
@@ -41,8 +40,7 @@ export class SidebarComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private router: Router,
-    private route: ActivatedRoute,
-    public _usuarioService: UsuarioService
+    private _usuarioService: UsuarioService,
   ) {
     const location = [];
     const myurl = [];
@@ -66,6 +64,7 @@ export class SidebarComponent implements OnInit {
     this.sidebarnavItems = ROUTES.filter(sidebarnavItem => sidebarnavItem);
     this.nombre = (this._usuarioService.usuario.nombres).toString().split(' ')[0] + ' ' + this._usuarioService.usuario.apePaterno;
   }
+
 
   logout() {
     this._usuarioService.logout();
