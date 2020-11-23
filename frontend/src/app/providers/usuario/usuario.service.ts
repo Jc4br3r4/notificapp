@@ -7,6 +7,7 @@ import {Router} from '@angular/router';
 import {environment} from '../../../environments/environment';
 import Swal from 'sweetalert2'
 import {Compendio} from '../../models/compendio.model';
+import {WebsocketService} from '../socket/websocket.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,10 +21,10 @@ export class UsuarioService{
   headers = new HttpHeaders();
   private api: string = environment.API_ENDPOINT + '/auth';
 
-  constructor(public http: HttpClient, public  router: Router) {
+  constructor(public http: HttpClient, public  router: Router,
+              public ws: WebsocketService) {
     this.cargarStorage();
   }
-
 
   renuevaToken() {
     let url = this.api + '/login/renuevatoken';
@@ -49,7 +50,7 @@ export class UsuarioService{
     if ( localStorage.getItem('token')) {
       this.token = localStorage.getItem('token');
       this.usuario = JSON.parse(localStorage.getItem('usuario'));
-
+      this.loginWS(this.usuario);
     } else {
       this.token = '';
       this.usuario = null;
@@ -116,7 +117,7 @@ export class UsuarioService{
     this.verifyRemember();
     this.router.navigate(['/login']);
 
-
+    this.ws.emit('logout');
   }
 
   login( usuario: UsuarioLogin , recordar: boolean = false) {
@@ -134,6 +135,7 @@ export class UsuarioService{
       .pipe(
         map( (res: any) => {
           this.guardarStorage(res.token, res.persona);
+          this.loginWS(res.persona);
           return true;
         }), catchError( err => {
           Swal.fire(' Error en el login' , err.error.message, 'error');
@@ -178,5 +180,8 @@ export class UsuarioService{
       )
   }
 
+  loginWS(persona) {
+    this.ws.emit('login', persona);
+  }
 
 }

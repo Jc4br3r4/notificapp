@@ -5,6 +5,7 @@ import {
   PrimaryGeneratedColumn, UpdateDateColumn,
 } from 'typeorm';
 import { Persona } from '../catmaepersona/catmaepersona.entity';
+import { DetalleCompendio } from '../catdetcompendio/catdetcompendio.entity';
 
 @Entity('catmaetransaccion')
 export class Transaccion {
@@ -25,6 +26,9 @@ export class Transaccion {
   })
   @JoinColumn({ name: 'emisor_id' })
   emisor: Persona;
+
+  @Column()
+  estado: string;
 
   @CreateDateColumn({ name: 'created_at'})
   createdAt: Date;

@@ -10,3 +10,17 @@ export interface Cuenta {
 export interface DetalleCompendio {
   nombre: string
 }
+
+
+export interface Emmited {
+  evento: string;
+  payload?: any,
+  callback?: Function
+}
+
+
+export interface Notificacion {
+  tipo: string;
+  mensaje: string;
+  created: Date
+}

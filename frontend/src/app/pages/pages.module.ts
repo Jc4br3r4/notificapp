@@ -9,13 +9,15 @@ import {PerfilComponent} from './perfil/perfil.component';
 import {PagesRoutes} from './pages.routing';
 import {SaldoComponent} from './saldos/saldo.component';
 import {UsuarioService} from '../providers/service.index';
+import { TransferenciasComponent } from './transferencias/transferencias.component';
 
 @NgModule({
   imports: [FormsModule, CommonModule, NgbModule, RouterModule.forChild(PagesRoutes), PerfectScrollbarModule, ReactiveFormsModule],
   declarations: [
     ConfiguracionComponent,
     PerfilComponent,
-    SaldoComponent
+    SaldoComponent,
+    TransferenciasComponent
   ],
   providers: [
     UsuarioService

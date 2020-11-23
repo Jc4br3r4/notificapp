@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 declare var $: any;
 
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import {TransferenciaService} from '../../providers/transferencia/transferencia.service';
 
 @Component({
   selector: 'app-full-layout',
@@ -12,7 +13,9 @@ import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 export class FullComponent implements OnInit {
   public config: PerfectScrollbarConfigInterface = {};
 
-  constructor(public router: Router) { }
+  constructor(public router: Router,
+              private transferenciaService: TransferenciaService,
+  ) { }
 
   tabStatus = 'justified';
 
@@ -47,6 +50,10 @@ export class FullComponent implements OnInit {
     }
     this.defaultSidebar = this.options.sidebartype;
     this.handleSidebar();
+
+    this.transferenciaService.transferenciaPendiente().subscribe((msj) => {
+      console.log(msj)
+    })
   }
 
   @HostListener('window:resize', ['$event'])
