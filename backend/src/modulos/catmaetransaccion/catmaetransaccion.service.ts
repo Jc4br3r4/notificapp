@@ -79,6 +79,11 @@ export class TransaccionService {
     const destino = await this.cuentaRepository.findOne({ where: { ncuenta: resp.destino }})
     const origen = await this.cuentaRepository.findOne({ where: { persona: user, ncuenta: resp.origen }});
 
+
+    if (resp.origen === resp.destino) {
+      throw new HttpException('Cuenta destino y origen no deben ser iguales', HttpStatus.FORBIDDEN);
+    }
+
     if(!origen) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }

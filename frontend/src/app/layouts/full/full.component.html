@@ -14,13 +14,13 @@
             <div class="navbar-header" [ngClass]="(expandLogo)?'expand-logo':''" [attr.data-logobg]="options.logobg">
                 <!-- This is for the sidebar toggle which is visible on mobile only -->
                 <a (click)="showMobileMenu = !showMobileMenu"
-                    class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)">
+                    class="nav-toggler waves-effect waves-light d-block d-md-none">
                     <i [ngClass]="(showMobileMenu)?'ti-close':'ti-menu'"></i>
                 </a>
                 <!-- ============================================================== -->
                 <!-- Logo -->
                 <!-- ============================================================== -->
-                <a class="navbar-brand" href="/">
+                <a class="navbar-brand" routerLink="/main">
                     <!-- Logo icon -->
                     <b class="logo-icon">
                         <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->

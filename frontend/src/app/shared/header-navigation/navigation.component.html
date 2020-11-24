@@ -30,7 +30,7 @@
                     <div class="drop-title bg-info text-white">Notificaciones</div>
                 </li>
                 <li>
-                    <div class="message-center notifications" [perfectScrollbar]="config">
+                    <div class="message-center notifications" [perfectScrollbar]="config" *ngIf="notifications.length > 0">
                         <!-- Message -->
                         <a class="message-item" *ngFor="let notification of notifications">
 <!--                            <span class="btn btn-circle {{notification.btn}}">-->
@@ -42,6 +42,13 @@
                                 <span class="time">{{notification.created | humanize}}</span>
                             </span>
                         </a>
+                    </div>
+                    <div class="message-center notifications" [perfectScrollbar]="config" *ngIf="notifications.length <= 0">
+                      <a class="message-item">
+                        <span class="mail-contnet">
+                           <h5 class="message-title">No tienes notificaciones</h5>
+                         </span>
+                      </a>
                     </div>
                 </li>
                 <li>
