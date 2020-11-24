@@ -4,6 +4,8 @@ import { Repository } from 'typeorm';
 import { Usuario } from './catmaeusuario.entity';
 import { Persona } from '../catmaepersona/catmaepersona.entity';
 import { Cuenta } from '../catmaecuenta/catmaecuenta.entity';
+import { AppGateway } from '../../events/app.gateway';
+import { UsersOnline } from '../usersonline/usersonline.entity';
 
 @Injectable()
 export class UsuarioService {
@@ -14,7 +16,7 @@ export class UsuarioService {
     @InjectRepository(Persona)
     private personaRepository: Repository<Persona>,
     @InjectRepository(Cuenta)
-    private cuentaRepository: Repository<Cuenta>
+    private cuentaRepository: Repository<Cuenta>,
   ) {}
 
   async login(data) {
@@ -34,9 +36,11 @@ export class UsuarioService {
       where: { persona }
     })
 
+
     if (!user || !(await user.comparePassword(data.password))) {
       throw new HttpException('Nª Documento/Clave Web invalido', HttpStatus.BAD_REQUEST);
     }
+
 
     return user.toResponseObject();
   }
@@ -72,5 +76,42 @@ export class UsuarioService {
     await this.userRepository.save(usuario);
 
     return true;
+  }
+
+  async cambiarEmail(data) {
+
+    const persona = await this.personaRepository.findOne({ id: data.id });
+
+    if (!persona) {
+      throw new HttpException('Persona no encontrada', HttpStatus.NOT_FOUND);
+    }
+
+    let user = await this.userRepository.findOne({
+      relations: ['persona'],
+      where: { persona }
+    })
+
+    if (!user || !(await user.comparePassword(data.password))) {
+      throw new HttpException('Clave Web invalida verifique', HttpStatus.BAD_REQUEST);
+    }
+
+    await this.personaRepository.update({id: data.id},  { email: data.email })
+
+    user = await this.userRepository.findOne({
+      relations: ['persona'],
+      where: { persona }
+    })
+
+    return user.toResponseObject();
+  }
+
+  async read(id: number) {
+    const user = await this.userRepository.findOne({
+      where: { persona: {
+        id
+        } },
+      relations: ['persona']
+    });
+    return user.persona;
   }
 }

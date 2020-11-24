@@ -26,20 +26,14 @@
                     <form class="form-horizontal m-t-20" [formGroup]="form" (ngSubmit)="registrarUsuario()" autocomplete="off">
                         <div class="form-group row">
                             <div class="col-12">
-                                <input formControlName="tarjeta" name="tarjeta" class="form-control" type="text" (keypress)="onlynumber($event)" minlength="16" maxlength="16" required placeholder="Nª Tarjeta" [ngClass]="{
-                    'is-invalid':
-                      (form.get('tarjeta').errors?.required &&
-                        form.get('tarjeta').touched) ||
-                      form.get('tarjeta').errors?.minlength
-                  }" [maxLength]="16" />
+                                <input formControlName="tarjeta" name="tarjeta" class="form-control" type="text" (keypress)="onlynumber($event)" minlength="16" maxlength="16" required placeholder="Nª Tarjeta"
+                                       [ngClass]="{'is-invalid':(form.get('tarjeta').errors?.required && form.get('tarjeta').touched) || form.get('tarjeta').errors?.minlength}"
+                                       [maxLength]="16" />
                                 <div class="invalid-feedback">
-                                    <span *ngIf="form.get('tarjeta').errors?.required">Campo requerido</span
-                  >
-
-                  <span *ngIf="form.get('tarjeta').errors?.minlength"
-                    >Ingrese los 16 digitos de su tarjeta</span
-                  >
-                </div>
+                                    <span *ngIf="form.get('tarjeta').errors?.required">Campo requerido</span>
+                                <span *ngIf="form.get('tarjeta').errors?.minlength"
+                                  >Ingrese los 16 digitos de su tarjeta</span>
+                                </div>
               </div>
             </div>
             <div class="form-group row">

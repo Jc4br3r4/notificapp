@@ -1,1 +1,59 @@
-<p>configuracion works!</p>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div id="update-internet-key">
+          <h2 id="title">Cambio de clave de internet</h2>
+          <p class="q-internet-password">
+            ¿Para qué sirve la clave de internet?
+          </p>
+          <div id="container-paragraph" class="ng-star-inserted">
+            <p class="paragraph">
+              Tu clave de internet es la clave de 6 dígitos que te permite realizar operaciones en nuestra
+              <span class="strong">Banca por Internet</span> y <span class="strong">Banca Móvil</span>.
+            </p>
+          </div>
+          <form novalidate="" class="ng-untouched ng-invalid ng-dirty">
+            <div class="row">
+              <div class="col-12 col-md-6 mb-4">
+                <div class="form-group form-group--relative form-group--stacked active text-box-wrapper">
+                  <label for="f-clave">
+                    Ingresa tu clave actual
+                  </label>
+                  <input id="f-clave" class="form-control" maxlength="50" autocomplete="off" type="email"
+                         placeholder="Clave actual">
+                  <div class="invalid-feedback ng-star-inserted">
+                    Este campo es requerido.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 col-md-6 mb-4">
+                <div class="form-group form-group--relative form-group--stacked active text-box-wrapper">
+                  <label for="n-clave">
+                    Ingresa tu nueva clave
+                  </label>
+                  <input id="n-clave" class="form-control" maxlength="50" autocomplete="off" type="email" placeholder="Nueva clave">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 col-md-6 mb-4">
+                <div class="form-group form-group--relative form-group--stacked active text-box-wrapper">
+                  <label for="n-clave2">
+                    Confirma tu nueva clave
+                  </label>
+                  <input id="n-clave2" class="form-control" maxlength="50" autocomplete="off" type="email" placeholder="Confirma clave">
+                </div>
+              </div>
+            </div>
+            <div id="container-keypad" class="ng-star-inserted">
+              <button class="btn-next btn btn-primary" id="button-finish">Continuar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

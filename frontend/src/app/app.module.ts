@@ -5,8 +5,8 @@ import {
 } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { Routes, RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AgmCoreModule } from '@agm/core';
@@ -47,6 +47,11 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   minScrollbarLength: 20
 };
 
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import {environment} from '../environments/environment';
+
+const config: SocketIoConfig = { url: environment.wsUrl, options: { } };
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -61,19 +66,20 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     CommonModule,
     BrowserModule,
     BrowserAnimationsModule,
-    FormsModule,
-    ToastrModule.forRoot(),
+    // FormsModule,
+    // ToastrModule.forRoot(),
     ReactiveFormsModule,
-    DataTablesModule,
+    // DataTablesModule,
     HttpClientModule,
     NgbModule,
-    Ng2SearchPipeModule,
-    FeatherModule,
-    FeatherModule.pick(icons),
+    // Ng2SearchPipeModule,
+    // FeatherModule,
+    // FeatherModule.pick(icons),
     RouterModule.forRoot(Approutes),
     PerfectScrollbarModule,
-    NgMultiSelectDropDownModule.forRoot(),
-    AgmCoreModule.forRoot({ apiKey: 'AIzaSyDoliAneRffQDyA7Ul9cDk3tLe7vaU4yP8' })
+    // NgMultiSelectDropDownModule.forRoot(),
+    SocketIoModule.forRoot(config),
+    // AgmCoreModule.forRoot({ apiKey: 'AIzaSyDoliAneRffQDyA7Ul9cDk3tLe7vaU4yP8' })
   ],
   providers: [
     {
@@ -81,7 +87,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
     },
     LoginGuard,
-    AuthGuard
+    AuthGuard,
   ],
   bootstrap: [AppComponent]
 })

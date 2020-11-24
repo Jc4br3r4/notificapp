@@ -25,19 +25,19 @@
         <div class="dropdown-menu dropdown-menu-right mailbox" ngbDropdownMenu>
             <ul class="list-style-none">
                 <li class="border-bottom">
-                    <div class="drop-title bg-info text-white">Notifications</div>
+                    <div class="drop-title bg-info text-white">Notificaciones</div>
                 </li>
                 <li>
                     <div class="message-center notifications" [perfectScrollbar]="config">
                         <!-- Message -->
                         <a href="javascript:void(0)" class="message-item" *ngFor="let notification of notifications">
-                            <span class="btn btn-circle {{notification.btn}}">
-                                <i class="{{notification.icon}}"></i>
-                            </span>
+<!--                            <span class="btn btn-circle {{notification.btn}}">-->
+<!--                                <i class="{{notification.icon}}"></i>-->
+<!--                            </span>-->
                             <span class="mail-contnet">
-                                <h5 class="message-title">{{notification.title}}</h5>
-                                <span class="mail-desc">{{notification.subject}}</span>
-                                <span class="time">{{notification.time}}</span>
+                                <h5 class="message-title">{{notification.tipo | uppercase }}</h5>
+                                <span class="mail-desc">{{notification.mensaje}}</span>
+                                <span class="time">{{notification.created | date}}</span>
                             </span>
                         </a>
                     </div>

@@ -5,6 +5,8 @@ import { CuentaModule } from './catmaecuenta/catmaecuenta.module';
 import { TransaccionModule } from './catmaetransaccion/catmaetransaccion.module';
 import { PersonaModule } from './catmaepersona/catmaepersona.module';
 import { UsuarioModule } from './catmaeusuario/catmaeusuario.module';
+import { UsersOnlineModule } from './usersonline/usersonline.module';
+import { NotificacionModule } from './catmaenotificacion/notificacion.module';
 
 @Module({
   imports: [
@@ -13,7 +15,9 @@ import { UsuarioModule } from './catmaeusuario/catmaeusuario.module';
     CuentaModule,
     TransaccionModule,
     PersonaModule,
-    UsuarioModule
+    UsuarioModule,
+    UsersOnlineModule,
+    NotificacionModule
   ],
 })
 export class NotificAppModule {}

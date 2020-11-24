@@ -1,37 +1,39 @@
-import { Injectable } from '@angular/core';
-import {Usuario, UsuarioDTO, UsuarioLogin} from '../../models/usuario.model';
+import {Injectable, OnInit} from '@angular/core';
+import {User, Usuario, UsuarioDTO, UsuarioLogin} from '../../models/usuario.model';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 import {Router} from '@angular/router';
 import {environment} from '../../../environments/environment';
 import Swal from 'sweetalert2'
+import {Compendio} from '../../models/compendio.model';
+import {WebsocketService} from '../socket/websocket.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UsuarioService {
+export class UsuarioService{
 
-  usuario: UsuarioDTO;
+  usuario: User;
   username: any = JSON.parse(localStorage.getItem('usuario'));
-  token: string;
+  public token: string;
   recuerdame: boolean;
   headers = new HttpHeaders();
-  URL_SERVICIO = environment.API_ENDPOINT;
+  private api: string = environment.API_ENDPOINT + '/auth';
 
-  constructor( public http: HttpClient, public  router: Router) {
+  constructor(public http: HttpClient, public  router: Router,
+              public ws: WebsocketService) {
     this.cargarStorage();
   }
 
   renuevaToken() {
-    let url = this.URL_SERVICIO + '/login/renuevatoken';
+    let url = this.api + '/login/renuevatoken';
     let authorization =  this.headers.set('Content-Type', 'application/json')
       .append('Authorization', this.token);
     return this.http.get( url , {headers: authorization})
       .pipe(map( (resp: any) => {
         this.token = resp.token;
         localStorage.setItem('token' , this.token);
-        // console.log('Token renovado');
         return true;
 
       }), catchError( err => {
@@ -48,7 +50,7 @@ export class UsuarioService {
     if ( localStorage.getItem('token')) {
       this.token = localStorage.getItem('token');
       this.usuario = JSON.parse(localStorage.getItem('usuario'));
-
+      this.loginWS(this.usuario);
     } else {
       this.token = '';
       this.usuario = null;
@@ -62,29 +64,17 @@ export class UsuarioService {
   }
 
   guardarStorage(token: string, usuario: UsuarioDTO) {
-    localStorage.setItem('token' , token);
+
     localStorage.setItem('usuario', JSON.stringify(usuario));
-
     this.usuario = usuario;
-    this.token = token;
-  }
 
-  crearUsuario( usuario: Usuario) {
-    const url = this.URL_SERVICIO + '/usuarios';
-    return this.http.post( url, usuario)
-      .pipe(
-        map( (res: any) => {
-          // swal('Usuario creado', usuario.email , 'success');
-        }), catchError( err => {
-          // console.log(err.error.mensaje);
-          // swal(err.error.mensaje , err.error.errors.message, 'error');
-          return throwError(err);
-        }));
+    localStorage.setItem('token' , token);
+    this.token = token;
   }
 
   actualizarUsuario( usuario: Usuario) {
 
-    const url = this.URL_SERVICIO + '/usuarios/' + usuario.id;
+    const url = this.api + '/usuarios/' + usuario.id;
     let authorization =  this.headers.set('Content-Type', 'application/json')
       .append('Authorization', this.token);
     return this.http.put( url, usuario , {headers: authorization})
@@ -127,7 +117,7 @@ export class UsuarioService {
     this.verifyRemember();
     this.router.navigate(['/login']);
 
-
+    this.ws.emit('logout');
   }
 
   login( usuario: UsuarioLogin , recordar: boolean = false) {
@@ -139,12 +129,13 @@ export class UsuarioService {
       localStorage.removeItem('username');
     }
 
-    const url = this.URL_SERVICIO + '/login';
+    const url = this.api + '/login';
 
     return this.http.post( url, usuario)
       .pipe(
         map( (res: any) => {
           this.guardarStorage(res.token, res.persona);
+          this.loginWS(res.persona);
           return true;
         }), catchError( err => {
           Swal.fire(' Error en el login' , err.error.message, 'error');
@@ -154,7 +145,7 @@ export class UsuarioService {
   }
 
   register(usuario: Usuario) {
-    const url = this.URL_SERVICIO + '/register';
+    const url = this.api + '/register';
     return this.http.post( url, usuario)
       .pipe(
         map( (res: any) => {
@@ -164,4 +155,33 @@ export class UsuarioService {
           return throwError(err);
         }));
   }
+
+  whoami() {
+    return this.http.get<User>(`${this.api}/whoiam`, {
+      headers: { authorization: `Bearer ${this.token}` }
+    });
+  }
+
+  actualizarEmail(cambiarEmail: any) {
+    const url = this.api + '/cambiar-email'
+
+    return this.http.post( url, cambiarEmail, {
+      headers: { authorization: `Bearer ${this.token}` }
+    })
+      .pipe(
+        map((res: any) => {
+          this.guardarStorage(res.token, res.persona);
+          Swal.fire('Su email a sido actualizado a:', res.persona.email , 'success');
+          return true
+        }) , catchError( (err) => {
+          Swal.fire('A ocurrido un error!', err.error.message, 'error');
+          return throwError(err);
+        })
+      )
+  }
+
+  loginWS(persona) {
+    this.ws.emit('login', persona);
+  }
+
 }

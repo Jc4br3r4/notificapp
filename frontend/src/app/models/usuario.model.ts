@@ -24,9 +24,21 @@ export class UsuarioLogin {
 export class UsuarioDTO {
 
   constructor(
-    public nombres: number,
-    public apePaterno: number,
-    public apeMaterno: number,
+    public nombres: string,
+    public apePaterno: string,
+    public apeMaterno: string,
+    public email: string,
+    public numDoc: string,
+    public fechNac: Date,
+    public id?: number
+  ) {}
+}
+
+export class User {
+  constructor(
+    public nombres: string,
+    public apePaterno: string,
+    public apeMaterno: string,
     public email: string,
     public numDoc: string,
     public fechNac: Date,
