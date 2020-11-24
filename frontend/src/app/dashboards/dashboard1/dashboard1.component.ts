@@ -13,9 +13,10 @@ import {TransferenciaService} from '../../providers/transferencia/transferencia.
 export class Dashboard1Component implements  OnInit{
 
   cuentas: Cuenta[] = [];
-	constructor(public router: Router, public _cuentaService: CuentaService,
+	constructor(public router: Router,
+              private _cuentaService: CuentaService,
               private _usuaarioService: UsuarioService,
-              public wsService: WebsocketService) {
+              private wsService: WebsocketService) {
 	}
 
   ngOnInit(): void {

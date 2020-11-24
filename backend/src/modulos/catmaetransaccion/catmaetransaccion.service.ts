@@ -76,24 +76,24 @@ export class TransaccionService {
   async estadoTransferencia(user , resp) {
     // necesito que la transferencia aentre en estado pendiente
 
-    const receptor = await this.cuentaRepository.findOne({ where: { ncuenta: resp.cuenta }})
-    const emisor = await this.cuentaRepository.findOne({ where: { persona: user }});
+    const destino = await this.cuentaRepository.findOne({ where: { ncuenta: resp.destino }})
+    const origen = await this.cuentaRepository.findOne({ where: { persona: user, ncuenta: resp.origen }});
 
-    if(!emisor) {
+    if(!origen) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }
 
-    if(!receptor) {
-      throw new HttpException('Receptor no encontrado', HttpStatus.NOT_FOUND);
+    if(!destino) {
+      throw new HttpException('Cuenta destino no encontrada', HttpStatus.NOT_FOUND);
     }
 
-    if(emisor.saldo <= resp.monto) {
+    if(origen.saldo <= resp.monto) {
       throw new HttpException('Saldo insuficiente', HttpStatus.FORBIDDEN);
     }
 
     const transaccion = await this.transaccionRepository.create({
       emisor: user,
-      receptor: receptor,
+      receptor: destino,
       monto: resp.monto,
       estado: resp.estado
     });
@@ -102,8 +102,8 @@ export class TransaccionService {
 
     // notifica al receptor
 
-    await this.notificaTransaccionReceptor(receptor);
-    await this.notificaTransccionEmisor(emisor);
+    await this.notificaTransaccionReceptor(destino);
+    await this.notificaTransccionEmisor(origen);
 
 
     return true;
