@@ -38,7 +38,9 @@
     "sass": "^1.25.0",
     "tslib": "^2.0.0",
     "zone.js": "^0.10.3",
-    "sweetalert2": "^10.9.0"
+    "sweetalert2": "^10.9.0",
+    "ngx-socket-io": "^3.2.0",
+    "moment": "^2.29.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.1000.1",

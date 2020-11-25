@@ -1,20 +1,10 @@
 import {
-  ConnectedSocket, MessageBody,
-  OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit,
-  SubscribeMessage,
+  OnGatewayConnection, OnGatewayDisconnect,
   WebSocketGateway,
   WebSocketServer,
-  WsResponse,
 } from '@nestjs/websockets';
-import { from, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { Server } from 'ws';
 import { Logger } from '@nestjs/common';
-import { Socket } from 'socket.io';
-import { InjectRepository } from '@nestjs/typeorm';
-import { UsersOnline } from '../modulos/usersonline/usersonline.entity';
-import { Repository } from 'typeorm';
-import { Persona } from '../modulos/catmaepersona/catmaepersona.entity';
 
 @WebSocketGateway(3001)
 export class AppGateway implements OnGatewayConnection, OnGatewayDisconnect{

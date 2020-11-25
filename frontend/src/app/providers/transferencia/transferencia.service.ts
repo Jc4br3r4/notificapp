@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {WebsocketService} from '../socket/websocket.service';
 import {environment} from '../../../environments/environment';
-import {Cuenta} from '../../models/cuenta';
 import {HttpClient} from '@angular/common/http';
 
 @Injectable({
@@ -17,11 +16,6 @@ export class TransferenciaService {
     public http: HttpClient
   ) { }
 
-  enviaTransferencia( transferencia: any ) {
-
-    this.wsService.emit('transferencia', transferencia);
-  }
-
   transferenciaPendiente() {
     return this.wsService.listen('transferencia-pendiente')
   }
@@ -29,6 +23,6 @@ export class TransferenciaService {
   estadoTransferencia(data) {
     return this.http.post<any>(`${this.api}/estado-transferencia`, data ,{
       headers: { authorization: `Bearer ${this.token}` }
-    });
+    }).toPromise();
   }
 }

@@ -10,7 +10,7 @@ export class UsersOnline{
   @PrimaryGeneratedColumn()
     id: number;
 
-  @Column({ name: 'clave_web'})
+  @Column()
   token: string;
 
   @ManyToOne(() => Persona, (persona) => persona.id, {
