@@ -211,3 +211,13 @@
   letter-spacing: normal;
   margin-bottom: 0;
 }
+
+
+.negative-balance {
+  color: #da2329;
+}
+
+
+.pendiente {
+ color: #999999
+}

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {WebsocketService} from '../socket/websocket.service';
 import {environment} from '../../../environments/environment';
 import {HttpClient} from '@angular/common/http';
+import {Saldo} from '../../models/cuenta';
 
 @Injectable({
   providedIn: 'root'
@@ -25,4 +26,11 @@ export class TransferenciaService {
       headers: { authorization: `Bearer ${this.token}` }
     }).toPromise();
   }
+
+  saldos(id) {
+    return this.http.get<[Saldo]>(`${this.api}/historico/${id}`, {
+      headers: { authorization: `Bearer ${this.token}` }
+    })
+  }
+
 }
