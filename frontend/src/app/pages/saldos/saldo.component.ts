@@ -38,14 +38,13 @@ export class SaldoComponent implements OnInit {
     });
   }
 
-  get contable() {
+   get contable() {
     let saldos = 0;
-    let contable = 0;
+    let contable;
     if(this.saldos.length > 0) {
-      // @ts-ignore
       saldos = this.saldos.reduce((a, b) => {
-        return parseFloat(String(a.monto)) + parseFloat(String(b.monto))
-      })
+        return a + parseFloat(String(b.monto))
+      }, 0)
     }
 
     if(this.cuenta && this.cuenta.saldo > 0) {

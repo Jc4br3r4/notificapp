@@ -1,0 +1,223 @@
+.product-detail-card .blue-title-card{
+  color: #012d74;
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: normal;
+  line-height: 1.71;
+  margin-bottom: 0;
+}
+
+.product-detail-card .font-bold-alike {
+  font-size: 24px;
+  height: 34px;
+}
+
+.product-detail-card .font-normal {
+  font-size: 14px;
+}
+
+.product-detail-card .font-normal {
+  height: 30px;
+}
+
+.product-detail-card .font-normal > .font-bold-alike {
+  font-size: 14px;
+}
+
+.home-wrapper-shadow{
+  background-color: #ffffff;
+  -webkit-box-shadow: 0 4px 20px 0 rgba(94, 135, 176, 0.16);
+  box-shadow: 0 4px 20px 0 rgba(94, 135, 176, 0.16);
+  height: auto;
+  width: 100%;
+}
+
+
+.product-detail-card .product-detail-card-wrapper{
+  margin-left: 6px;
+  margin-right: 7px;
+  padding-bottom: 24px;
+  padding-top: 16px;
+}
+
+.product-summary-card .product-summary-card-title {
+  color: #012d74;
+  font-size: 18px;
+  font-stretch: normal;
+  font-style: normal;
+  font-weight: bold;
+  letter-spacing: normal;
+  line-height: 1.33;
+  margin-bottom: 0;
+}
+
+.product-summary-card-container {
+  margin-top: 24px;
+}
+
+.product-summary-card .summary-header {
+  margin-bottom: 20px;
+  padding-top: 39px;
+}
+
+.product-summary-card .summary-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  margin-bottom: 32px;
+  padding-top: 34px;
+}
+
+.product-summary-card .summary-header {
+  padding: 15px 15px 20px;
+}
+
+.product-summary-card .summary-header-title {
+  margin: 0 17px;
+}
+
+.detail-summary-table-header {
+  color: #012d74;
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: normal;
+  margin: 0 33px 0 32px;
+  padding: 0 0 0 16px;
+}
+
+.detail-summary-table-header {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background-color: #eff2f9;
+  border-bottom: 1px solid #a2b5d2;
+  height: 64px;
+  padding: 0 15px;
+}
+
+.detail-summary-table-header {
+  margin: 0 33px 0 32px;
+  padding: 0 0 0 16px;
+}
+
+.detail-summary-table-header .date {
+  min-width: 38%;
+}
+
+.detail-summary-table-header .date {
+  padding-left: 25px;
+}
+
+
+.bg-wrapper, .bg-wrapper-color {
+  margin-left: 32px;
+  margin-right: 33px;
+}
+
+.bg-wrapper, .bg-wrapper-color{
+  background-color: #fff;
+  border-bottom: 1px solid #d6dce9;
+}
+
+
+.detail-summary-table-body {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  height: 56px;
+  margin: 0;
+}
+
+.detail-summary-table-body {
+  padding-left: 32px;
+  padding-right: 24px;
+}
+
+/*.detail-summary-table-body{*/
+/*  padding: 0 17px;*/
+/*}*/
+
+.detail-summary-table-body .date-wrapper {
+  max-width: 122px;
+}
+
+.detail-summary-table-body .date-wrapper {
+  min-width: 38%;
+}
+
+.detail-summary-table-body .description-wrapper-td, .detail-summary-table-body .amount-wrapper-td {
+  display: block;
+  min-width: 31%;
+}
+
+.detail-summary-table-body .description-wrapper-td .description,
+.detail-summary-table-body .amount-wrapper-td .description {
+  margin-bottom: 0;
+}
+
+.detail-summary-table-body .date-wrapper .date-td {
+  display: block;
+  margin-bottom: 0;
+}
+
+
+.detail-summary-table-body .amount-wrapper-td {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: block;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+}
+
+.detail-summary-table-body .amount-wrapper-td .amount {
+  margin-right: 28px;
+}
+
+.detail-summary-table-body .amount-wrapper-td .amount {
+  margin-bottom: 0;
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.detail-summary-table-body .positive-balance {
+  color: #93c737;
+}
+
+.detail-summary-table-body .currency-color {
+  font-weight: bold;
+  margin-right: 4px;
+}
+
+.detail-summary-table-header .amount-td{
+  max-width: 31%;
+  text-align: center;
+}
+
+.detail-summary-table-header .date,
+.detail-summary-table-header .description-m,
+.detail-summary-table-header .description-td,
+.detail-summary-table-header .amount-td {
+  color: #012d74;
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: normal;
+  margin-bottom: 0;
+}
+
+
+.negative-balance {
+  color: #da2329;
+}
+
+
+.pendiente {
+  color: #999999
+}

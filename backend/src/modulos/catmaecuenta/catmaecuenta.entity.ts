@@ -24,7 +24,7 @@ export class Cuenta {
   @Column({ select: false })
   clave: number;
 
-  @Column()
+  @Column({ type: 'decimal', nullable: true })
   saldo: number;
 
   @ManyToOne(() => Persona, (persona) => persona.id, {
