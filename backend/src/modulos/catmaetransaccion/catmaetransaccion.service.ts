@@ -97,9 +97,10 @@ export class TransaccionService {
     }
 
     const transaccion = await this.transaccionRepository.create({
-      emisor: user,
-      receptor: destino,
+      origen,
+      destino,
       monto: resp.monto,
+      descripcion: 'TRAN.CTAS.TERC.BM',
       estado: resp.estado
     });
 
@@ -155,4 +156,26 @@ export class TransaccionService {
     return rpta;
   }
 
+  async saldos(user, id){
+
+    const origen = await this.cuentaRepository.findOne({ where: { persona: user, id }});
+
+    if(!origen) {
+      throw new HttpException('La cuenta no existe', HttpStatus.NOT_FOUND);
+    }
+
+    return await this.transaccionRepository.createQueryBuilder('transaccion')
+      .innerJoinAndSelect('transaccion.origen', 'origen')
+      .innerJoinAndSelect('transaccion.destino', 'destino')
+      .select([
+        'transaccion.monto as monto',
+        'transaccion.estado as estado',
+        'transaccion.createdAt as created',
+        'transaccion.descripcion as descripcion',
+        'transaccion.origen as origen',
+      ])
+      .where( 'origen.id = :origen', { origen: origen.id })
+      .orWhere('destino.id = :destino', { destino: origen.id })
+      .getRawMany();
+  }
 }

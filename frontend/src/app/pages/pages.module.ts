@@ -10,6 +10,7 @@ import {PagesRoutes} from './pages.routing';
 import {SaldoComponent} from './saldos/saldo.component';
 import {UsuarioService} from '../providers/service.index';
 import { TransferenciasComponent } from './transferencias/transferencias.component';
+import { NotificacionesComponent } from './notificaciones/notificaciones.component';
 
 @NgModule({
   imports: [FormsModule, CommonModule, NgbModule, RouterModule.forChild(PagesRoutes), PerfectScrollbarModule, ReactiveFormsModule],
@@ -17,7 +18,8 @@ import { TransferenciasComponent } from './transferencias/transferencias.compone
     ConfiguracionComponent,
     PerfilComponent,
     SaldoComponent,
-    TransferenciasComponent
+    TransferenciasComponent,
+    NotificacionesComponent
   ],
   providers: [
     UsuarioService

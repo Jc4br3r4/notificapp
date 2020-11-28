@@ -5,7 +5,7 @@ import {
   PrimaryGeneratedColumn, UpdateDateColumn,
 } from 'typeorm';
 import { Persona } from '../catmaepersona/catmaepersona.entity';
-import { DetalleCompendio } from '../catdetcompendio/catdetcompendio.entity';
+import { Cuenta } from '../catmaecuenta/catmaecuenta.entity';
 
 @Entity('catmaetransaccion')
 export class Transaccion {
@@ -15,17 +15,20 @@ export class Transaccion {
   @Column({ type: 'decimal'})
   monto: number;
 
-  @ManyToOne(() => Persona, (persona) => persona.id, {
-    nullable: true,
-  })
-  @JoinColumn({ name: 'receptor_id' })
-  receptor: Persona;
+  @Column({  nullable: true })
+  descripcion: string;
 
-  @ManyToOne(() => Persona, (persona) => persona.id, {
+  @ManyToOne(() => Cuenta, (cuenta) => cuenta.id, {
     nullable: true,
   })
-  @JoinColumn({ name: 'emisor_id' })
-  emisor: Persona;
+  @JoinColumn({ name: 'origen_id' })
+  origen: Cuenta;
+
+  @ManyToOne(() => Cuenta, (cuenta) => cuenta.id, {
+    nullable: true,
+  })
+  @JoinColumn({ name: 'destino_id' })
+  destino: Cuenta;
 
   @Column()
   estado: string;

@@ -3,6 +3,7 @@ import {PerfilComponent} from './perfil/perfil.component';
 import {ConfiguracionComponent} from './configuracion/configuracion.component';
 import {SaldoComponent} from './saldos/saldo.component';
 import {TransferenciasComponent} from './transferencias/transferencias.component';
+import {NotificacionesComponent} from './notificaciones/notificaciones.component';
 
 export const PagesRoutes: Routes = [
   {
@@ -13,7 +14,7 @@ export const PagesRoutes: Routes = [
         component: PerfilComponent,
         data: {
           title: 'Mi perfil',
-          urls: [{ title: 'Persona', url: '/perfil' }, { title: 'Mi perfil' }]
+          urls: [{ title: 'Main', url: '/main' }, { title: 'Perfil' }]
         }
       },
       {
@@ -21,7 +22,7 @@ export const PagesRoutes: Routes = [
         component: ConfiguracionComponent,
         data: {
           title: 'Configuracion',
-          urls: [{ title: 'Persona', url: '/configuracion' }, { title: 'Configuracion' }]
+          urls: [{ title: 'Main', url: '/main' }, { title: 'Configuracion' }]
         }
       },
       {
@@ -29,7 +30,7 @@ export const PagesRoutes: Routes = [
         component: SaldoComponent,
         data: {
           title: 'Ahorro Soles',
-          urls: [{ title: 'Cuenta', url: '/detalle-de-tu-cuenta' }, { title: 'Saldos' }]
+          urls: [{ title: 'Main', url: '/main' }, { title: 'Saldos' }]
         }
       },
       {
@@ -37,7 +38,15 @@ export const PagesRoutes: Routes = [
         component: TransferenciasComponent,
         data: {
           title: 'Transferencias',
-          urls: [{ title: 'Trasnferenciaa', url: '/transferencias/propias-cuentas' }, { title: 'Transfiere' }]
+          urls: [{ title: 'Main', url: '/main' }, { title: 'Transfiere' }]
+        }
+      },
+      {
+        path: 'notificaciones',
+        component: NotificacionesComponent,
+        data: {
+          title: 'Notificaciones',
+          urls: [{ title: 'Main', url: '/main' }, { title: 'Notificaciones' }]
         }
       },
     ]

@@ -1,0 +1,54 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="container">
+          <div class="row">
+            <div class="col-12 product-summary-card-container">
+              <div class="product-summary-card">
+                <div class="home-wrapper-shadow">
+                  <div class="summary-body">
+                    <div class="row detail-summary-table-header">
+                      <p class="col date">
+                        Fecha
+                      </p>
+                      <p class="col description-td">
+                        Descripción
+                      </p>
+                      <p class="col amount-td">
+                        Tipo
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="bg-wrapper">
+                    <div class="row detail-summary-table-body" *ngFor="let notificacion of notificaciones">
+                      <div class="col date-wrapper">
+                        <p class="date-td">
+                          {{ notificacion.created | date: 'dd-MM-yyyy' }}
+                        </p>
+                      </div>
+                      <div class="col description-wrapper-td">
+                        <p class="description">
+                          {{ notificacion.mensaje }}
+                        </p>
+                      </div>
+
+                      <div class="col amount-wrapper-td">
+                        <p class="amount ng-star-inserted">
+                          {{ notificacion.tipo }}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+

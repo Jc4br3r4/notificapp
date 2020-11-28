@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {CuentaService} from '../../providers/cuenta/cuenta.service';
-import {Cuenta} from '../../models/cuenta';
+import {Cuenta, Saldo} from '../../models/cuenta';
+import {TransferenciaService} from '../../providers/transferencia/transferencia.service';
 
 @Component({
   selector: 'app-saldos',
@@ -11,18 +12,46 @@ import {Cuenta} from '../../models/cuenta';
 export class SaldoComponent implements OnInit {
 
   cuenta: Cuenta;
-
+  saldos: Saldo[] = [];
+  id: number;
   constructor(public _cuentaService: CuentaService,
+              public _transferenciaService: TransferenciaService,
               private route: ActivatedRoute) {
 
-    const id = parseInt(this.route.snapshot.paramMap.get('id'));
   }
 
   ngOnInit(): void {
-    const id = parseInt(this.route.snapshot.paramMap.get('id'));
-    this._cuentaService.cuenta(id).subscribe( (cuenta) => {
+    this.id = parseInt(this.route.snapshot.paramMap.get('id'));
+    this.getCuenta();
+    this.getSaldos();
+  }
+
+  getCuenta() {
+    this._cuentaService.cuenta(this.id).subscribe( (cuenta) => {
       this.cuenta = cuenta;
     })
   }
 
+  getSaldos() {
+    this._transferenciaService.saldos(this.id).subscribe( (saldos: [Saldo]) => {
+      this.saldos = saldos
+    });
+  }
+
+   get contable() {
+    let saldos = 0;
+    let contable;
+    if(this.saldos.length > 0) {
+      saldos = this.saldos.reduce((a, b) => {
+        return a + parseFloat(String(b.monto))
+      }, 0)
+    }
+
+    if(this.cuenta && this.cuenta.saldo > 0) {
+      contable = this.cuenta.saldo - saldos;
+    } else {
+      contable = saldos - this.cuenta.saldo
+    }
+     return contable
+  }
 }

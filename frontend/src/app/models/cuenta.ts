@@ -24,3 +24,13 @@ export interface Notificacion {
   mensaje: string;
   created: Date
 }
+
+export interface  Saldo {
+  created: Date
+  descripcion: string;
+  estado: string;
+  id: number;
+  monto: number;
+  destino: number;
+  origen: number;
+}

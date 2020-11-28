@@ -6,7 +6,7 @@
           <div class="row">
             <div class="col-12 product-detail-card-container">
               <div>
-                <div class="product-detail-card">
+                <div class="product-detail-card" *ngIf="cuenta && saldos">
                   <div class="home-wrapper-shadow">
                     <div class="row product-detail-card-wrapper">
                       <div class="col-12 col-lg-4 product-detail-card-container">
@@ -19,7 +19,7 @@
                             <span class="font-bold-alike">{{ cuenta.saldo | currency: ' '}}</span>
                           </p>
                           <span class="font-normal">Saldo contable
-                        <span class="font-bold-alike ml-2">{{ cuenta.saldo | currency: 'S/. '}}</span>
+                        <span class="font-bold-alike ml-2">{{ contable | currency: 'S/. '}} </span>
                       </span>
                         </div>
                       </div>
@@ -50,6 +50,7 @@
                       Últimos movimientos
                     </p>
                   </div>
+
                   <div class="summary-body">
                     <div class="row detail-summary-table-header">
                       <p class="col date">
@@ -63,27 +64,29 @@
                       </p>
                     </div>
                   </div>
-                  <div class="bg-wrapper" data-index="19">
-                    <div class="row detail-summary-table-body">
+
+                  <div class="bg-wrapper">
+                    <div class="row detail-summary-table-body" [ngClass]="{'pendiente': saldo.estado === 'P'}" *ngFor="let saldo of saldos">
                       <div class="col date-wrapper">
                         <p class="date-td">
-                          13/09/2020
+                          {{ saldo.created | date: 'd/M/yyyy'}}
                         </p>
                       </div>
                       <div class="col description-wrapper-td">
                         <p class="description">
-                          Pago YAPE de 19439
+                          {{ saldo.descripcion | uppercase }}
                         </p>
                       </div>
 
                       <div class="col amount-wrapper-td">
                         <p class="amount ng-star-inserted">
-                          <span class="currency-color positive-balance">+</span>
-                          S/ 5.20
+                          <span class="currency-color positive-balance" *ngIf="saldo.origen !== id">+</span>
+                          <span class="currency-color negative-balance" *ngIf="saldo.origen === id">-</span>
+                          {{ saldo.monto | currency: 'S/. '  }}
                         </p>
-                        <div class="arrow-container">
-                          <span class="detail-arrow"></span>
-                        </div>
+<!--                        <div class="arrow-container">-->
+<!--                          <span class="detail-arrow"></span>-->
+<!--                        </div>-->
                       </div>
                     </div>
                     <!---->

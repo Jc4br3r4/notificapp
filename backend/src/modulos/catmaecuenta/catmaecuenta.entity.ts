@@ -12,7 +12,7 @@ export class Cuenta {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ select: false })
   tarjeta: string;
 
   @Column({ name: 'num_cuenta', unique: true})
@@ -21,10 +21,10 @@ export class Cuenta {
   @Column({ unique: true })
   cci: string;
 
-  @Column()
+  @Column({ select: false })
   clave: number;
 
-  @Column()
+  @Column({ type: 'decimal', nullable: true })
   saldo: number;
 
   @ManyToOne(() => Persona, (persona) => persona.id, {
@@ -49,6 +49,6 @@ export class Cuenta {
   @CreateDateColumn({ name: 'created_at'})
   createdAt: Date;
 
-  @UpdateDateColumn({ name: 'updated_at'})
+  @UpdateDateColumn({ name: 'updated_at', select: false})
   updatedAt: Date;
 }

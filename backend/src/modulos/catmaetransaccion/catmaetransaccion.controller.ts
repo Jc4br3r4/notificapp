@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards, UsePipes } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards, UsePipes } from '@nestjs/common';
 import { TransaccionService } from './catmaetransaccion.service';
 import { ValidationPipe } from '../../shared/validation.pipe';
 import { AuthGuard } from '../../shared/auth.guard';
@@ -24,4 +24,10 @@ export class TransaccionController {
     return this.transaccionService.estadoTransferencia(user, data);
   }
 
+  @Get('historico/:id')
+  @UsePipes(new ValidationPipe())
+  @UseGuards(new AuthGuard())
+  saldos(@User('persona') user, @Param('id') id: number) {
+    return this.transaccionService.saldos(user, id);
+  }
 }
