@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {WebsocketService} from '../../providers/socket/websocket.service';
 import {TransferenciaService} from '../../providers/transferencia/transferencia.service';
 import {Cuenta} from '../../models/cuenta';
 import {CuentaService} from '../../providers/cuenta/cuenta.service';
 import Swal from 'sweetalert2'
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-transferencias',
@@ -16,9 +16,9 @@ export class TransferenciasComponent implements OnInit {
   form: FormGroup;
   cuentas: Cuenta[] = [];
 
-  constructor(public wsService: WebsocketService,
-              public transferenciaService: TransferenciaService,
-              private _cuentaService: CuentaService,) { }
+  constructor(public transferenciaService: TransferenciaService,
+              private _cuentaService: CuentaService,
+              public router: Router,) { }
 
 
   ngOnInit(): void {
@@ -37,28 +37,22 @@ export class TransferenciasComponent implements OnInit {
   misCuentas() {
     this._cuentaService.cuentas().subscribe((cuentas: [Cuenta]) => {
       this.cuentas = cuentas
-      this.form.patchValue({
-        origen: cuentas[0].ncuenta
-      });
     })
   }
 
   transferir() {
 
-    const data = { ...this.form.value, estado: 'P', monto: parseFloat(this.form.value.monto)}
-    this.transferenciaService.estadoTransferencia(data).then(( data ) => {
+    const data = { ...this.form.value, monto: parseFloat(this.form.value.monto)}
+    this.transferenciaService.transferenciaCuentasPropias(data).then(( data ) => {
       if(data) {
         Swal.fire(
           'Transferencia realizada!',
-          'La cuenta destino debe aceptar su transferencia',
+          'Se ha realizado la transferencia entre sus cuentas',
           'success'
         )
-        this.form.reset();
-        this.form.patchValue({
-          origen: this.cuentas[0].ncuenta
-        });
-      }
 
+        this.router.navigate(['/main'] );
+      }
     }).catch(({ error }) => {
       Swal.fire(
         'Error ' + error.statusCode,
@@ -66,6 +60,7 @@ export class TransferenciasComponent implements OnInit {
         'error'
       )
     })
-    // this.transferenciaService.enviaTransferencia(data)
+    this.form.reset();
+
   }
 }

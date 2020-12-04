@@ -33,4 +33,10 @@ export class TransferenciaService {
     })
   }
 
+  transferenciaCuentasPropias(data) {
+    return this.http.post<any>(`${this.api}/cuentas-propias`, data ,{
+      headers: { authorization: `Bearer ${this.token}` }
+    }).toPromise();
+  }
+
 }

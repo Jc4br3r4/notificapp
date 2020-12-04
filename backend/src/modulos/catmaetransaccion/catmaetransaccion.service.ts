@@ -106,11 +106,8 @@ export class TransaccionService {
 
     await this.transaccionRepository.save(transaccion);
 
-    // notifica al receptor
-
     await this.notificaTransaccionReceptor(destino);
     await this.notificaTransccionEmisor(origen);
-
 
     return true;
   }
@@ -176,6 +173,39 @@ export class TransaccionService {
       ])
       .where( 'origen.id = :origen', { origen: origen.id })
       .orWhere('destino.id = :destino', { destino: origen.id })
+      .orderBy('transaccion.created_at', 'DESC')
       .getRawMany();
+  }
+
+  async propiasCuentas(user , resp) {
+
+    const destino: Cuenta = await this.cuentaRepository.findOne({ where: { persona: user, ncuenta: resp.destino }})
+    const origen: Cuenta = await this.cuentaRepository.findOne({ where: { persona: user, ncuenta: resp.origen }});
+
+    if (resp.origen === resp.destino) {
+      throw new HttpException('Cuenta destino y origen no deben ser iguales', HttpStatus.FORBIDDEN);
+    }
+
+    if(!origen) {
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+    }
+
+    if(!destino) {
+      throw new HttpException('Cuenta destino no encontrada', HttpStatus.NOT_FOUND);
+    }
+
+    const transaccion = await this.transaccionRepository.create({
+      origen,
+      destino,
+      monto: resp.monto,
+      descripcion: 'TRAN.CTAS.PROP.WEB',
+      estado: 'C'
+    });
+
+    await this.transaccionRepository.save(transaccion);
+    await this.cuentaRepository.update({ id: origen.id }, { saldo: parseFloat(String(origen.saldo)) - resp.monto })
+    await this.cuentaRepository.update({ id: destino.id}, { saldo: parseFloat(String(destino.saldo)) + resp.monto })
+
+    return true;
   }
 }

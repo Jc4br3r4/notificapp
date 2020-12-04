@@ -4,6 +4,7 @@ import {ConfiguracionComponent} from './configuracion/configuracion.component';
 import {SaldoComponent} from './saldos/saldo.component';
 import {TransferenciasComponent} from './transferencias/transferencias.component';
 import {NotificacionesComponent} from './notificaciones/notificaciones.component';
+import {TransferenciaTerceroComponent} from './transferencia-tercero/transferencia-tercero.component';
 
 export const PagesRoutes: Routes = [
   {
@@ -37,7 +38,15 @@ export const PagesRoutes: Routes = [
         path: 'transferencias/propias-cuentas',
         component: TransferenciasComponent,
         data: {
-          title: 'Transferencias',
+          title: 'Transferencias propias cuentas',
+          urls: [{ title: 'Main', url: '/main' }, { title: 'Transfiere' }]
+        }
+      },
+      {
+        path: 'transferencias/a-terceros',
+        component: TransferenciaTerceroComponent,
+        data: {
+          title: 'Transferencias a tercero',
           urls: [{ title: 'Main', url: '/main' }, { title: 'Transfiere' }]
         }
       },

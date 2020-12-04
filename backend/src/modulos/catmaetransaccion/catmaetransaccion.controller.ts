@@ -30,4 +30,11 @@ export class TransaccionController {
   saldos(@User('persona') user, @Param('id') id: number) {
     return this.transaccionService.saldos(user, id);
   }
+
+  @Post('cuentas-propias')
+  @UsePipes(new ValidationPipe())
+  @UseGuards(new AuthGuard())
+  transaccionCuentasPropias(@User('persona') user, @Body() data: any) {
+    return this.transaccionService.propiasCuentas(user, data);
+  }
 }

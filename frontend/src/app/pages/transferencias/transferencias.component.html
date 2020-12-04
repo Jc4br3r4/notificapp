@@ -6,7 +6,7 @@
           <div class="row">
               <div class="col-12">
                 <div class="bcp-title mb-4">
-                  <h2 class="title">Transferencia a otra cuenta del BCP</h2>
+                  <h2 class="title">Transferencia a una cuenta propia</h2>
                   <span class="subtitle">Ingresa los datos y completa las opciones para continuar</span>
                 </div>
                 <form novalidate="" class="text-center" [formGroup]="form" (ngSubmit)="transferir()">
@@ -16,7 +16,7 @@
                         <label for="f-origen">
                           Cuenta origen
                         </label>
-                        <select formControlName="origen" name="tipo" class="custom-select mr-sm-2" id="f-origen">
+                        <select formControlName="origen" name="tipo1" class="custom-select mr-sm-2" id="f-origen">
                           <option selected *ngFor="let cuenta of cuentas" [value]="cuenta.ncuenta">
                              {{ cuenta.ncuenta }} - {{ cuenta.saldo | currency:('S/. ') }}
                           </option>
@@ -27,20 +27,14 @@
                   <div class="row justify-content-center">
                     <div class="col-12 col-md-6">
                       <div  class="form-group form-group--relative form-group--stacked active text-box-wrapper text-left">
-                        <label for="f-cuenta">
+                        <label for="f-destino">
                           Cuenta destino
                         </label>
-                        <input
-                          id="f-cuenta"
-                          class="form-control"
-                          maxlength="50"
-                          autocomplete="off"
-                          type="text"
-                          formControlName="destino"
-                          placeholder="Ingresaaa tu cuenta de destino">
-                        <div class="invalid-feedback ng-star-inserted">
-                          Este campo es requerido.
-                        </div>
+                        <select formControlName="destino" name="tipo2" class="custom-select mr-sm-2" id="f-destino">
+                          <option selected *ngFor="let cuenta of cuentas" [value]="cuenta.ncuenta">
+                            {{ cuenta.ncuenta }} - {{ cuenta.saldo | currency:('S/. ') }}
+                          </option>
+                        </select>
                       </div>
                     </div>
                   </div>

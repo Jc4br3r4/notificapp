@@ -54,6 +54,6 @@ export class NavigationComponent implements OnInit {
         }
         this.notifications = data;
       })
-    }, 60000)
+    }, 60000 * 5)
   }
 }

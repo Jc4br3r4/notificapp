@@ -11,6 +11,7 @@ import {SaldoComponent} from './saldos/saldo.component';
 import {UsuarioService} from '../providers/service.index';
 import { TransferenciasComponent } from './transferencias/transferencias.component';
 import { NotificacionesComponent } from './notificaciones/notificaciones.component';
+import { TransferenciaTerceroComponent } from './transferencia-tercero/transferencia-tercero.component';
 
 @NgModule({
   imports: [FormsModule, CommonModule, NgbModule, RouterModule.forChild(PagesRoutes), PerfectScrollbarModule, ReactiveFormsModule],
@@ -19,7 +20,8 @@ import { NotificacionesComponent } from './notificaciones/notificaciones.compone
     PerfilComponent,
     SaldoComponent,
     TransferenciasComponent,
-    NotificacionesComponent
+    NotificacionesComponent,
+    TransferenciaTerceroComponent
   ],
   providers: [
     UsuarioService
