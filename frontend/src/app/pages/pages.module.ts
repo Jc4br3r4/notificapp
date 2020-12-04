@@ -12,6 +12,8 @@ import {UsuarioService} from '../providers/service.index';
 import { TransferenciasComponent } from './transferencias/transferencias.component';
 import { NotificacionesComponent } from './notificaciones/notificaciones.component';
 import { TransferenciaTerceroComponent } from './transferencia-tercero/transferencia-tercero.component';
+import { TransfereciaReceptorComponent } from './transferecia-receptor/transferecia-receptor.component';
+import { TransfereciaEmisorComponent } from './transferecia-emisor/transferecia-emisor.component';
 
 @NgModule({
   imports: [FormsModule, CommonModule, NgbModule, RouterModule.forChild(PagesRoutes), PerfectScrollbarModule, ReactiveFormsModule],
@@ -21,7 +23,9 @@ import { TransferenciaTerceroComponent } from './transferencia-tercero/transfere
     SaldoComponent,
     TransferenciasComponent,
     NotificacionesComponent,
-    TransferenciaTerceroComponent
+    TransferenciaTerceroComponent,
+    TransfereciaReceptorComponent,
+    TransfereciaEmisorComponent
   ],
   providers: [
     UsuarioService

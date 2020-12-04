@@ -5,6 +5,8 @@ import {SaldoComponent} from './saldos/saldo.component';
 import {TransferenciasComponent} from './transferencias/transferencias.component';
 import {NotificacionesComponent} from './notificaciones/notificaciones.component';
 import {TransferenciaTerceroComponent} from './transferencia-tercero/transferencia-tercero.component';
+import {TransfereciaReceptorComponent} from './transferecia-receptor/transferecia-receptor.component';
+import {TransfereciaEmisorComponent} from './transferecia-emisor/transferecia-emisor.component';
 
 export const PagesRoutes: Routes = [
   {
@@ -47,6 +49,22 @@ export const PagesRoutes: Routes = [
         component: TransferenciaTerceroComponent,
         data: {
           title: 'Transferencias a tercero',
+          urls: [{ title: 'Main', url: '/main' }, { title: 'Transfiere' }]
+        }
+      },
+      {
+        path: 'transferencias/aceptar-transferencia/:id',
+        component: TransfereciaReceptorComponent,
+        data: {
+          title: 'Transferencia bancaria',
+          urls: [{ title: 'Main', url: '/main' }, { title: 'Transfiere' }]
+        }
+      },
+      {
+        path: 'transferencias/confirmar-transferencia',
+        component: TransfereciaEmisorComponent,
+        data: {
+          title: 'Transferencia bancaria',
           urls: [{ title: 'Main', url: '/main' }, { title: 'Transfiere' }]
         }
       },

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {WebsocketService} from '../socket/websocket.service';
 import {environment} from '../../../environments/environment';
 import {HttpClient} from '@angular/common/http';
-import {Saldo} from '../../models/cuenta';
+import {Saldo, Transferencia} from '../../models/cuenta';
 
 @Injectable({
   providedIn: 'root'
@@ -39,4 +39,15 @@ export class TransferenciaService {
     }).toPromise();
   }
 
+  aceptarTransferencia(id) {
+    return this.http.get<Transferencia>(`${this.api}/aceptar-transferencia/${id}`,{
+      headers: { authorization: `Bearer ${this.token}` }
+    });
+  }
+
+  cambiaEstado(data) {
+    return this.http.post<any>(`${this.api}/estado`, data ,{
+      headers: { authorization: `Bearer ${this.token}` }
+    }).toPromise();
+  }
 }

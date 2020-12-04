@@ -22,7 +22,9 @@ export interface Emmited {
 export interface Notificacion {
   tipo: string;
   mensaje: string;
-  created: Date
+  created: Date;
+  transaccion_id: number;
+  created_by: number;
 }
 
 export interface  Saldo {
@@ -33,4 +35,16 @@ export interface  Saldo {
   monto: number;
   destino: number;
   origen: number;
+}
+
+
+export interface Transferencia {
+  id: number;
+  paterno: string;
+  materno: string;
+  nombres: string;
+  monto: number;
+  descripcion: string;
+  estado: string;
+  createdat: Date;
 }

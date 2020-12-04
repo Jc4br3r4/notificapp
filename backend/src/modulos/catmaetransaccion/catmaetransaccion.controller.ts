@@ -37,4 +37,18 @@ export class TransaccionController {
   transaccionCuentasPropias(@User('persona') user, @Body() data: any) {
     return this.transaccionService.propiasCuentas(user, data);
   }
+
+  @Get('aceptar-transferencia/:id')
+  @UsePipes(new ValidationPipe())
+  @UseGuards(new AuthGuard())
+  verTransferenciaPendiente( @Param('id') id: number) {
+    return this.transaccionService.verTransferenciaPendiente(id);
+  }
+
+  @Post('estado')
+  @UsePipes(new ValidationPipe())
+  @UseGuards(new AuthGuard())
+  cambiaEstado(@User('persona') user, @Body() data: any) {
+    return this.transaccionService.estadoTransferencia(user, data);
+  }
 }

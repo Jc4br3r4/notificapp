@@ -6,6 +6,7 @@ import { Cuenta } from '../catmaecuenta/catmaecuenta.entity';
 import { AppGateway } from '../../events/app.gateway';
 import { UsersOnline } from '../usersonline/usersonline.entity';
 import { Notificacion } from '../catmaenotificacion/notificacion.entity';
+import { Persona } from '../catmaepersona/catmaepersona.entity';
 
 @Injectable()
 export class TransaccionService {
@@ -76,8 +77,8 @@ export class TransaccionService {
   async estadoTransferencia(user , resp) {
     // necesito que la transferencia aentre en estado pendiente
 
-    const destino = await this.cuentaRepository.findOne({ where: { ncuenta: resp.destino }})
-    const origen = await this.cuentaRepository.findOne({ where: { persona: user, ncuenta: resp.origen }});
+    const destino = await this.cuentaRepository.findOne({ where: { ncuenta: resp.destino }, relations: [ 'persona']})
+    const origen = await this.cuentaRepository.findOne({ where: { persona: user, ncuenta: resp.origen }, relations: [ 'persona']});
 
 
     if (resp.origen === resp.destino) {
@@ -106,51 +107,10 @@ export class TransaccionService {
 
     await this.transaccionRepository.save(transaccion);
 
-    await this.notificaTransaccionReceptor(destino);
-    await this.notificaTransccionEmisor(origen);
+    await this.notificaTransaccionReceptor(user.id,destino, 'Su transferencia esta pendiente de aceptacion', transaccion);
+    await this.notificaTransccionEmisor(user.id,origen, 'Tienes un transferencia pendiente', transaccion);
 
     return true;
-  }
-
-  async notificaTransaccionReceptor(receptor) {
-    const notificacionEmite = await this.notificaacionRepository.create({
-      mensaje: 'Tienes un transferencia pendiente',
-      persona: receptor,
-      tipo: 'transferencia'
-    })
-
-    const rpta = await this.notificaacionRepository.save(notificacionEmite)
-
-    const userOnline = await this.usersRepository.findOne({
-      where: { persona: receptor}
-    })
-
-    if(userOnline) {
-      this.gateway.server.in(userOnline.token).emit('transferencia-pendiente', rpta)
-    }
-
-    return rpta;
-
-  }
-
-  async notificaTransccionEmisor(emisor) {
-    const notificacionRecibe = await this.notificaacionRepository.create({
-      mensaje: 'Su transferencia esta pendiente de aceptacion',
-      persona: emisor,
-      tipo: 'transferencia'
-    })
-
-    const rpta = await this.notificaacionRepository.save(notificacionRecibe)
-
-    const userOnline = await this.usersRepository.findOne({
-      where: { persona: emisor}
-    })
-
-    if(userOnline) {
-      this.gateway.server.in(userOnline.token).emit('transferencia-pendiente', rpta)
-    }
-
-    return rpta;
   }
 
   async saldos(user, id){
@@ -207,5 +167,81 @@ export class TransaccionService {
     await this.cuentaRepository.update({ id: destino.id}, { saldo: parseFloat(String(destino.saldo)) + resp.monto })
 
     return true;
+  }
+
+  async verTransferenciaPendiente(id) {
+    return await this.transaccionRepository.createQueryBuilder('transaccion')
+      .innerJoinAndSelect('transaccion.origen', 'origen')
+      .innerJoinAndSelect('origen.persona', 'persona')
+      .select([
+        'transaccion.descripcion as descripcion',
+        'transaccion.monto as monto',
+        'transaccion.created_at as createdat',
+        'transaccion.estado as estado',
+        'persona.ape_materno as materno',
+        'persona.ape_paterno as paterno',
+        'persona.nombres as nombres'
+      ])
+      .where('transaccion.id = :id', { id })
+      .getRawOne();
+  }
+
+  async cambiaEstadoTransferencia(user, data) {
+    const { id, estado } = data
+    const transaccion = await this.transaccionRepository.findOne({ where: { id, destino: user }, relations: ['destino', 'origen']})
+
+    if(transaccion) {
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+    }
+
+    await this.transaccionRepository.update({ id}, { estado })
+
+    await this.notificaTransaccionReceptor(transaccion.origen, 'Tienes una confirmacion pendiente', transaccion);
+    await this.notificaTransccionEmisor(transaccion.destino, 'La cuenta origen debe confirmar la transacion', transaccion);
+
+    return true
+  }
+
+  async createNotifacionTranasccion(owner: number, persona: Persona, mensaje: string, transaccion?) {
+
+    const notifica = await this.notificaacionRepository.create({
+      tipo: 'transferencia',
+      mensaje: mensaje,
+      transaccion: transaccion,
+      created_by: owner,
+      persona: persona,
+    });
+
+    return await this.notificaacionRepository.save(notifica);
+  }
+
+  async notificaTransaccionReceptor(owner,receptor, mensaje, transaccion?) {
+    const rpta = await this.createNotifacionTranasccion(owner,receptor.persona, mensaje,transaccion);
+
+    const userOnline = await this.usersRepository.findOne({
+      where: { persona: receptor}
+    })
+
+    if(userOnline) {
+      this.gateway.server.in(userOnline.token).emit('transferencia-pendiente', rpta)
+    }
+
+    return rpta;
+
+  }
+
+  async notificaTransccionEmisor(owner,emisor, mensaje, transaccion?) {
+
+    const rpta = await this.createNotifacionTranasccion(owner,emisor.persona,mensaje,transaccion);
+
+    const userOnline = await this.usersRepository.findOne({
+      where: { persona: emisor}
+    })
+
+    if(userOnline) {
+      this.gateway.server.in(userOnline.token).emit('transferencia-pendiente', rpta)
+    }
+
+    return rpta;
   }
 }

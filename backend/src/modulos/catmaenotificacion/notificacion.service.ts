@@ -8,21 +8,24 @@ export class NotificacionService {
 
   constructor(
     @InjectRepository(Notificacion)
-    private notificacionRepository: Repository<Notificacion>
+    private notificacionRepository: Repository<Notificacion>,
   ) {}
 
 
   async find(persona) {
     return await this.notificacionRepository.find({
-      where: { persona }
+      select: ['id','transaccion_id','tipo', 'mensaje', 'created', 'created_by'],
+      where: { persona },
     });
   }
 
   async mostrecents(persona) {
     return await this.notificacionRepository.find({
+      select: ['id','transaccion_id','tipo', 'mensaje', 'created', 'created_by'],
       where: { persona },
       take: 5,
       order: { created: 'DESC'}
     });
   }
+
 }

@@ -4,6 +4,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Persona } from '../catmaepersona/catmaepersona.entity';
+import { Transaccion } from '../catmaetransaccion/catmaetransaccion.entity';
 
 @Entity('catmaenotificacion')
 export class Notificacion{
@@ -24,4 +25,16 @@ export class Notificacion{
 
   @CreateDateColumn()
   created: Date;
+
+  @ManyToOne(() => Transaccion, (transaccion) => transaccion.id, {
+    nullable: true,
+  })
+  @JoinColumn({ name: 'transaccion_id' })
+  transaccion: Transaccion;
+
+  @Column({ nullable: true })
+  transaccion_id: number
+
+  @Column({ nullable: true })
+  created_by: number
 }

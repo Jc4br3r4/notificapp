@@ -19,7 +19,7 @@ export class NavigationComponent implements OnInit {
   nombre: string = '';
   email: string = '';
   nuevaNotificacion: boolean = false;
-  constructor(private _usuarioService: UsuarioService,
+  constructor(public _usuarioService: UsuarioService,
               private _notificacionService: NotificacionService,
               private transferenciaService: TransferenciaService,) {
     this.nombre = (this._usuarioService.usuario.nombres).toString().split(' ')[0] + ' ' + this._usuarioService.usuario.apePaterno;
