@@ -21,6 +21,14 @@ export class TransferenciaService {
     return this.wsService.listen('transferencia-pendiente')
   }
 
+  actualizaSaldoReceptor() {
+    return this.wsService.listen('transferencia-completada-receptor');
+  }
+
+  actualizaSaldoEmisor() {
+    return this.wsService.listen('transferencia-completada-emisor');
+  }
+
   estadoTransferencia(data) {
     return this.http.post<any>(`${this.api}/estado-transferencia`, data ,{
       headers: { authorization: `Bearer ${this.token}` }
@@ -49,5 +57,17 @@ export class TransferenciaService {
     return this.http.post<any>(`${this.api}/estado`, data ,{
       headers: { authorization: `Bearer ${this.token}` }
     }).toPromise();
+  }
+
+  confirmaEstado(data){
+    return this.http.post<any>(`${this.api}/confirma`, data ,{
+      headers: { authorization: `Bearer ${this.token}` }
+    }).toPromise();
+  }
+
+  confirmarTransferencia(id) {
+    return this.http.get<Transferencia>(`${this.api}/confirmar-transferencia/${id}`,{
+      headers: { authorization: `Bearer ${this.token}` }
+    });
   }
 }

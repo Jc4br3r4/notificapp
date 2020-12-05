@@ -9,14 +9,6 @@ export class TransaccionController {
 
   constructor(private transaccionService: TransaccionService) {}
 
-  // @Post('transaccion-terceros')
-  // @UsePipes(new ValidationPipe())
-  // @UseGuards(new AuthGuard())
-  // transaccionTerceros(@User('persona') user, @Body() data: any) {
-  //   const { id } = user;
-  //   return this.transaccionService.transferenciaTerceros(id, data);
-  // }
-
   @Post('estado-transferencia')
   @UsePipes(new ValidationPipe())
   @UseGuards(new AuthGuard())
@@ -45,10 +37,25 @@ export class TransaccionController {
     return this.transaccionService.verTransferenciaPendiente(id);
   }
 
+  @Get('confirmar-transferencia/:id')
+  @UsePipes(new ValidationPipe())
+  @UseGuards(new AuthGuard())
+  verConfirmacionTransfernecia( @Param('id') id: number) {
+    return this.transaccionService.verConfirmacionTransfernecia(id);
+  }
+
   @Post('estado')
   @UsePipes(new ValidationPipe())
   @UseGuards(new AuthGuard())
   cambiaEstado(@User('persona') user, @Body() data: any) {
-    return this.transaccionService.estadoTransferencia(user, data);
+    return this.transaccionService.cambiaEstadoTransferencia(user, data);
   }
+
+  @Post('confirma')
+  @UsePipes(new ValidationPipe())
+  @UseGuards(new AuthGuard())
+  confirmarEstadoTransferencia(@User('persona') user, @Body() data: any) {
+    return this.transaccionService.confirmarEstadoTransferencia(user, data);
+  }
+
 }

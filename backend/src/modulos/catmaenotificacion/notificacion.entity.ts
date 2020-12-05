@@ -37,4 +37,10 @@ export class Notificacion{
 
   @Column({ nullable: true })
   created_by: number
+
+  @Column({ nullable: true })
+  estado: string
+
+  @Column({ default: true, nullable: true })
+  show: boolean;
 }

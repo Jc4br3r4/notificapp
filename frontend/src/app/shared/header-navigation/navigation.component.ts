@@ -33,8 +33,8 @@ export class NavigationComponent implements OnInit {
       this.notifications = data;
     })
 
-    this.transferenciaService.transferenciaPendiente().subscribe((msj: Notificacion) => {
-      this.notifications.unshift(msj);
+    this.transferenciaService.transferenciaPendiente().subscribe((msj: Notificacion[]) => {
+      this.notifications = msj;
       this.nuevaNotificacion = true;
     })
 

@@ -61,7 +61,7 @@ export const PagesRoutes: Routes = [
         }
       },
       {
-        path: 'transferencias/confirmar-transferencia',
+        path: 'transferencias/confirmar-transferencia/:id',
         component: TransfereciaEmisorComponent,
         data: {
           title: 'Transferencia bancaria',

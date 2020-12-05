@@ -25,6 +25,8 @@ export interface Notificacion {
   created: Date;
   transaccion_id: number;
   created_by: number;
+  show: boolean;
+  estado: string;
 }
 
 export interface  Saldo {

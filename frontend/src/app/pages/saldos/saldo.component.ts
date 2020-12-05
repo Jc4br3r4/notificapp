@@ -28,6 +28,7 @@ export class SaldoComponent implements OnInit {
 
   getCuenta() {
     this._cuentaService.cuenta(this.id).subscribe( (cuenta) => {
+      console.log(cuenta)
       this.cuenta = cuenta;
     })
   }
@@ -41,8 +42,11 @@ export class SaldoComponent implements OnInit {
    get contable() {
     let saldos = 0;
     let contable;
-    if(this.saldos.length > 0) {
-      saldos = this.saldos.reduce((a, b) => {
+
+    let pendientes = this.saldos.filter((data) => data.estado !== 'C');
+
+    if(pendientes.length > 0) {
+      saldos = pendientes.reduce((a, b) => {
         return a + parseFloat(String(b.monto))
       }, 0)
     }

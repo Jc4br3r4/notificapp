@@ -14,14 +14,14 @@ export class NotificacionService {
 
   async find(persona) {
     return await this.notificacionRepository.find({
-      select: ['id','transaccion_id','tipo', 'mensaje', 'created', 'created_by'],
+      select: ['id','transaccion_id','tipo', 'mensaje', 'created', 'created_by', 'show', 'estado'],
       where: { persona },
     });
   }
 
   async mostrecents(persona) {
     return await this.notificacionRepository.find({
-      select: ['id','transaccion_id','tipo', 'mensaje', 'created', 'created_by'],
+      select: ['id','transaccion_id','tipo', 'mensaje', 'created', 'created_by', 'show', 'estado'],
       where: { persona },
       take: 5,
       order: { created: 'DESC'}

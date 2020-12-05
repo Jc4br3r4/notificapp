@@ -15,7 +15,7 @@ export class TransaccionService {
               private transaccionRepository: Repository<Transaccion>,
               @InjectRepository(Cuenta)
               private cuentaRepository: Repository<Cuenta>,
-              // @Inject() private connection: Connection
+              // @Inject() private connection: Connection,
               private gateway: AppGateway,
               @InjectRepository(UsersOnline)
               private usersRepository: Repository<UsersOnline>,
@@ -23,55 +23,38 @@ export class TransaccionService {
               private notificaacionRepository: Repository<Notificacion>
               ) {}
 
-  async transferenciaTerceros(user: number, data: any) {
+  async transferenciaTerceros(id) {
     // necesito saber la persona que transfiere a que persona y el monto
+    const transaccion = await this.transaccionRepository.findOne({ where: { id, estado: 'E' }, relations: ['destino', 'origen']})
 
     // saber si tiene saldo paara transferir
-    const emisor = await this.cuentaRepository.findOne({ where: { persona: user }});
+    const emisor = await this.cuentaRepository.findOne({ where: { id: transaccion.origen.id }});
 
-    if(!emisor) {
-      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
-    }
+    const receptor = await this.cuentaRepository.findOne({ where: { id: transaccion.destino.id }})
 
-    if(emisor.saldo > data.monto) {
-      throw new HttpException('Saldo insuficiente', HttpStatus.FORBIDDEN);
-    }
+      // disminuye
+      await this.cuentaRepository.update({ id: emisor.id }, {
+        saldo: parseFloat(String(emisor.saldo)) - parseFloat(String(transaccion.monto))
+      })
 
-    const receptor = await this.cuentaRepository.findOne({ where: { ncuenta: data.cuenta }})
+      // aumenta
+      await this.cuentaRepository.update({ id: receptor.id}, {
+        saldo: parseFloat(String(receptor.saldo)) + parseFloat(String(transaccion.monto))
+      })
 
-    if(!receptor) {
-      throw new HttpException('Receptor no encontrado', HttpStatus.NOT_FOUND);
-    }
+      const userOnline = await this.usersRepository.findOne({
+        where: { persona: receptor}
+      })
 
+      if(userOnline) {
+        const receptorOnline = await this.cuentaRepository.find({
+          where: {persona: receptor},
+          select: ['id', 'saldo', 'cci', 'tipoTarjeta', 'ncuenta', 'moneda'],
+          relations: ['tipoTarjeta', 'moneda'],
+        })
 
-    // const queryRunner = this.connection.createQueryRunner();
-    // await queryRunner.startTransaction();
-
-    // try {
-    //
-    //   // disminuye
-    //   await this.cuentaRepository.update({ id: emisor.id }, {
-    //     saldo: emisor.saldo - data.saldo
-    //   })
-    //
-    //   // aumenta
-    //   await this.cuentaRepository.update({ id: receptor.id}, {
-    //     saldo: receptor.saldo + data.saldo
-    //   })
-    //
-    //   await queryRunner.commitTransaction();
-    //
-    //   return await this.cuentaRepository.findOne({ where: { persona: user }});
-    //
-    // } catch (error) {
-    //
-    //   await queryRunner.rollbackTransaction();
-    //
-    // } finally {
-    //
-    //   await queryRunner.release();
-    //
-    // }
+        this.gateway.server.in(userOnline.token).emit('transferencia-completada-receptor', receptorOnline)
+      }
   }
 
   async estadoTransferencia(user , resp) {
@@ -107,8 +90,12 @@ export class TransaccionService {
 
     await this.transaccionRepository.save(transaccion);
 
-    await this.notificaTransaccionReceptor(user.id,destino, 'Su transferencia esta pendiente de aceptacion', transaccion);
-    await this.notificaTransccionEmisor(user.id,origen, 'Tienes un transferencia pendiente', transaccion);
+    console.log('EMISOR')
+    console.log(origen)
+    console.log('RECEPTOR')
+    console.log(destino)
+    await this.notificaTransaccionReceptor(user.id,destino, 'Tienes un transferencia pendiente',resp.estado, transaccion);
+    await this.notificaTransccionEmisor(user.id,origen, 'Su transferencia esta pendiente de aceptacion',resp.estado,  transaccion);
 
     return true;
   }
@@ -186,62 +173,148 @@ export class TransaccionService {
       .getRawOne();
   }
 
+  async confirmarEstadoTransferencia(user, data) {
+    const { id, estado } = data
+    const transaccion = await this.transaccionRepository.findOne({ where: { id, estado: 'E' }, relations: ['destino', 'origen', 'destino.persona', 'origen.persona']})
+
+    if(!transaccion) {
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+    }
+
+    await this.transferenciaTerceros(id);
+
+    const notifica = await this.notificaacionRepository.find({ where: { transaccion_id: id, estado: 'E' }});
+
+    if(notifica.length > 0) {
+      for(const noti of notifica) {
+        await this.notificaacionRepository.update({ id: noti.id }, { show: false })
+      }
+    }
+
+    await this.transaccionRepository.update({
+      id
+    }, { estado: 'C'})
+
+    await this.notificaTransaccionReceptor(user.id,transaccion.origen, 'La transferencia fue completada', estado);
+    await this.notificaTransccionEmisor(user.id, transaccion.destino, 'La transferencia fue completada', estado);
+
+    return true;
+  }
+
   async cambiaEstadoTransferencia(user, data) {
     const { id, estado } = data
-    const transaccion = await this.transaccionRepository.findOne({ where: { id, destino: user }, relations: ['destino', 'origen']})
+    const transaccion = await this.transaccionRepository.findOne({ where: { id }, relations: ['destino', 'origen', 'destino.persona', 'origen.persona']})
 
-    if(transaccion) {
+
+    // cambiar show notificacion
+
+    if(!transaccion) {
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+    }
+
+    let nuevoEstado;
+    if(estado === 'E') {
+      nuevoEstado = 'P'
+    } else if(estado === 'C') {
+      nuevoEstado = 'E'
+    }
+
+    const notifica = await this.notificaacionRepository.find({ where: { transaccion_id: id, estado: nuevoEstado }});
+
+    if(notifica.length > 0) {
+      for(const noti of notifica) {
+        await this.notificaacionRepository.update({ id: noti.id }, { show: false})
+      }
     }
 
     await this.transaccionRepository.update({ id}, { estado })
 
-    await this.notificaTransaccionReceptor(transaccion.origen, 'Tienes una confirmacion pendiente', transaccion);
-    await this.notificaTransccionEmisor(transaccion.destino, 'La cuenta origen debe confirmar la transacion', transaccion);
+    await this.notificaTransaccionReceptor(user.id,transaccion.origen, 'Tienes una confirmacion pendiente', estado, transaccion);
+    await this.notificaTransccionEmisor(user.id, transaccion.destino, 'La cuenta origen debe confirmar la transacion', estado, transaccion);
 
     return true
   }
 
-  async createNotifacionTranasccion(owner: number, persona: Persona, mensaje: string, transaccion?) {
+  async createNotifacionTranasccion(owner: number, persona: Persona, mensaje: string, estado,  transaccion?) {
 
     const notifica = await this.notificaacionRepository.create({
       tipo: 'transferencia',
       mensaje: mensaje,
       transaccion: transaccion,
       created_by: owner,
+      estado: estado,
       persona: persona,
     });
 
     return await this.notificaacionRepository.save(notifica);
   }
 
-  async notificaTransaccionReceptor(owner,receptor, mensaje, transaccion?) {
-    const rpta = await this.createNotifacionTranasccion(owner,receptor.persona, mensaje,transaccion);
+  async notificaTransaccionReceptor(owner,receptor, mensaje, estado, transaccion?) {
+    await this.createNotifacionTranasccion(owner,receptor.persona, mensaje, estado,transaccion);
 
     const userOnline = await this.usersRepository.findOne({
-      where: { persona: receptor}
+      where: { persona: receptor.persona}
     })
 
+    const mostrecent = await this.notificaacionRepository.find({
+      select: ['id','transaccion_id','tipo', 'mensaje', 'created', 'created_by', 'show', 'estado'],
+      where: { persona: receptor.persona },
+      take: 5,
+      order: { created: 'DESC'}
+    });
+
     if(userOnline) {
-      this.gateway.server.in(userOnline.token).emit('transferencia-pendiente', rpta)
+      console.log('NOTIFICA receptor');
+      console.log(userOnline)
+      console.log(receptor);
+      this.gateway.server.in(userOnline.token).emit('transferencia-pendiente', mostrecent)
     }
-
-    return rpta;
-
+    return mostrecent;
   }
 
-  async notificaTransccionEmisor(owner,emisor, mensaje, transaccion?) {
+  async notificaTransccionEmisor(owner,emisor, mensaje,estado, transaccion?) {
 
-    const rpta = await this.createNotifacionTranasccion(owner,emisor.persona,mensaje,transaccion);
+    await this.createNotifacionTranasccion(owner, emisor.persona, mensaje, estado, transaccion);
 
     const userOnline = await this.usersRepository.findOne({
-      where: { persona: emisor}
+      where: { persona: emisor.persona}
     })
 
+    const mostrecent = await this.notificaacionRepository.find({
+      select: ['id','transaccion_id','tipo', 'mensaje', 'created', 'created_by', 'show', 'estado'],
+      where: { persona: emisor.persona },
+      take: 5,
+      order: { created: 'DESC'}
+    });
+
     if(userOnline) {
-      this.gateway.server.in(userOnline.token).emit('transferencia-pendiente', rpta)
+      console.log('NOTIFICA emisor');
+      console.log(userOnline)
+      console.log(emisor);
+      this.gateway.server.in(userOnline.token).emit('transferencia-pendiente', mostrecent)
     }
 
-    return rpta;
+    return mostrecent;
+  }
+
+  async verConfirmacionTransfernecia(id) {
+    return await this.transaccionRepository.createQueryBuilder('transaccion')
+      .innerJoinAndSelect('transaccion.destino', 'destino')
+      .innerJoinAndSelect('destino.persona', 'persona')
+      .select([
+        'transaccion.descripcion as descripcion',
+        'transaccion.monto as monto',
+        'transaccion.created_at as createdat',
+        'transaccion.estado as estado',
+        'persona.ape_materno as materno',
+        'persona.ape_paterno as paterno',
+        'persona.nombres as nombres'
+      ])
+      .where('transaccion.id = :id', { id })
+      .getRawOne();
+  }
+
+  async cancelarTransferencia() {
+
   }
 }

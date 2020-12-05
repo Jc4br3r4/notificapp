@@ -31,9 +31,12 @@
                     <div class="message-center notifications" [perfectScrollbar]="config" *ngIf="notifications.length > 0">
                         <!-- Message -->
                         <a class="message-item" *ngFor="let notification of notifications">
-                            <button class="btn btn-circle" *ngIf="notification.transaccion_id && _usuarioService.usuario.id !== notification.created_by">
+                            <button class="btn btn-circle" *ngIf="notification.estado === 'P' && notification.show && _usuarioService.usuario.id !== notification.created_by">
                                 <i class="icon-eye" [routerLink]="['/transferencias/aceptar-transferencia', notification.transaccion_id]"></i>
                             </button>
+                          <button class="btn btn-circle" *ngIf="notification.estado === 'E' && notification.show && _usuarioService.usuario.id !== notification.created_by">
+                            <i class="icon-eye" [routerLink]="['/transferencias/confirmar-transferencia', notification.transaccion_id]"></i>
+                          </button>
                             <span class="mail-contnet">
                                 <h5 class="message-title">{{notification.tipo | uppercase }}</h5>
                                 <span class="mail-desc">{{notification.mensaje}}</span>
