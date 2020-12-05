@@ -65,6 +65,12 @@ export class TransferenciaService {
     }).toPromise();
   }
 
+  cancelaTransferencia(data){
+    return this.http.post<any>(`${this.api}/cancelacion`, data ,{
+      headers: { authorization: `Bearer ${this.token}` }
+    }).toPromise();
+  }
+
   confirmarTransferencia(id) {
     return this.http.get<Transferencia>(`${this.api}/confirmar-transferencia/${id}`,{
       headers: { authorization: `Bearer ${this.token}` }

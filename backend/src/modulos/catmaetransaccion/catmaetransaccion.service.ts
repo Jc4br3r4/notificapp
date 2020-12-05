@@ -314,7 +314,27 @@ export class TransaccionService {
       .getRawOne();
   }
 
-  async cancelarTransferencia() {
+  async cancelarTransferencia(user, data) {
+    const { id, estado } = data
 
+    const transaccion = await this.transaccionRepository.findOne({ where: { id }, relations: ['destino', 'origen', 'destino.persona', 'origen.persona']})
+
+
+    const notifica = await this.notificaacionRepository.find({ where: { transaccion_id: id }});
+
+    if(notifica.length > 0) {
+      for(const noti of notifica) {
+        await this.notificaacionRepository.update({ id: noti.id }, { show: false })
+      }
+    }
+
+    await this.transaccionRepository.update({
+      id
+    }, { estado })
+
+    await this.notificaTransaccionReceptor(user.id,transaccion.origen, 'La transferencia fue cancelada', estado);
+    await this.notificaTransccionEmisor(user.id, transaccion.destino, 'La transferencia fue cancelada', estado);
+
+    return true;
   }
 }

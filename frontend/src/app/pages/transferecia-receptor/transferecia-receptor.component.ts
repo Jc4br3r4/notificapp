@@ -54,4 +54,23 @@ export class TransfereciaReceptorComponent implements OnInit {
       )
     })
   }
+
+  cancelar() {
+
+    const data = {
+      id: this.id,
+      estado: 'F'
+    }
+
+    this.transferenciaService.cancelaTransferencia(data).then(async (data) => {
+      if(data) {
+        await Swal.fire(
+          'Transferencia Cancelada!',
+          'La transferencia fue cancelada',
+          'success'
+        )
+        await this.router.navigate(['/main']);
+      }
+    })
+  }
 }

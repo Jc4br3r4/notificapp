@@ -58,4 +58,11 @@ export class TransaccionController {
     return this.transaccionService.confirmarEstadoTransferencia(user, data);
   }
 
+  @Post('cancelacion')
+  @UsePipes(new ValidationPipe())
+  @UseGuards(new AuthGuard())
+  cancelarTransferencia(@User('persona') user, @Body() data: any) {
+    return this.transaccionService.cancelarTransferencia(user, data);
+  }
+
 }
