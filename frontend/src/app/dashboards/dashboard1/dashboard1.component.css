@@ -1,52 +1,60 @@
 .ct-series-c .ct-slice-donut {
-  stroke: rgb(236, 239, 241);
+    stroke: rgb(236, 239, 241);
 }
+
 .ct-series-d .ct-slice-donut {
-  stroke: rgb(116, 90, 242);
+    stroke: rgb(116, 90, 242);
 }
+
 .ct-series-b .ct-slice-donut {
-  stroke: rgb(38, 198, 218);
+    stroke: rgb(38, 198, 218);
 }
+
 .ct-series-a .ct-slice-donut {
-  stroke: rgb(30, 136, 229);
+    stroke: rgb(30, 136, 229);
 }
 
 .credit-card {
-  margin-top: 3rem;
-  padding: 0;
-  cursor: pointer;
+    margin-top: 3rem;
+    padding: 0;
+    cursor: pointer;
 }
 
 .favorites {
-  cursor: pointer;
-  padding: .75rem;
-  margin: 0.5rem 0;
+    cursor: pointer;
+    padding: .75rem;
+    margin: 0.5rem 0;
 }
 
 .btn-favorite {
-  width: 40px;
-  height: 40px;
-  border-radius: 5px;
-  display: flex;
-  align-items: center;
-  cursor: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    cursor: none;
 }
+
 .btn-toolbar {
-  background: #eaecf5;
+    background: #eaecf5;
 }
 
 .btn-toolbar i {
-  transform: rotate(-45deg);
+    transform: rotate(-45deg);
 }
 
 .btn-plus {
-  background: #fa6f33;
+    background: #fa6f33;
 }
 
 .btn-plus i {
-  color: #ffffff;
+    color: #ffffff;
 }
 
 .favorite-card {
-  min-height: 70vh;
+    min-height: 70vh;
+}
+
+.card {
+    background-color: #ffffffaa;
 }

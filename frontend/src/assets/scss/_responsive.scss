@@ -1,4 +1,5 @@
 // Responsive
+
 /*
 Template Name: Admin Template
 Author: Wrappixel
@@ -17,35 +18,39 @@ File: scss
  ============================================================== */
 
 
-
-
 /*-- ============================================================== 
  Small Desktop & above all (1024px) 
  ============================================================== */
- @media(min-width: 800px) {
+
+@media(min-width: 800px) {
     .page-wrapper {
+        background-image: url(https://image.freepik.com/vector-gratis/fondo-geometrico-azul-naranja_1095-284.jpg);
+        background-size: cover;
         margin-left: $sidebar-width-full;
     }
 }
+
 
 /*-- ============================================================== 
  Ipad & above all(768px) 
  ============================================================== */
 
 @include media-breakpoint-up(md) {
-    .bc-content{
+    .bc-content {
         justify-content: flex-end;
     }
 }
 
+
 /*-- ============================================================== 
  Phone and below ipad(767px) 
  ============================================================== */
+
 @include media-breakpoint-down(md) {
-    .do-block{
+    .do-block {
         display: block!important;
     }
-	.topbar .mega-dropdown .dropdown-menu {
-		height: 100%;
-	}
+    .topbar .mega-dropdown .dropdown-menu {
+        height: 100%;
+    }
 }
