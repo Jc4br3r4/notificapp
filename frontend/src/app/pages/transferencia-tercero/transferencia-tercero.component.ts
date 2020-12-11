@@ -67,4 +67,7 @@ export class TransferenciaTerceroComponent implements OnInit {
     })
     // this.transferenciaService.enviaTransferencia(data)
   }
+  onlynumber($event) {
+    return $event.charCode >= 46 && $event.charCode <= 57
+  }
 }

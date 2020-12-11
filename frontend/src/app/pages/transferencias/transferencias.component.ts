@@ -63,4 +63,7 @@ export class TransferenciasComponent implements OnInit {
     this.form.reset();
 
   }
+  onlynumber($event) {
+    return $event.charCode >= 46 && $event.charCode <= 57
+  }
 }

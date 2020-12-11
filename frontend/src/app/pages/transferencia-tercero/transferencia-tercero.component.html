@@ -1,24 +1,41 @@
 <div class="row">
-  <div class="col-12">
-    <div class="card">
-      <div class="card-body">
-        <div class="container">
-          <div class="row">
-            <div class="col-12">
-              <div class="bcp-title mb-4">
-                <h2 class="title">Transferencia a otra cuenta del BCP</h2>
-                <span class="subtitle">Ingresa los datos y completa las opciones para continuar</span>
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="bcp-title mb-4">
+                                <h2 class="title">Transferencia a otra cuenta del BCP</h2>
+                                <span class="subtitle">Ingresa los datos y completa las opciones para
+                  continuar</span
+                >
               </div>
-              <form novalidate="" class="text-center" [formGroup]="form" (ngSubmit)="transferir()">
+              <form
+                novalidate=""
+                class="text-center"
+                [formGroup]="form"
+                (ngSubmit)="transferir()"
+              >
                 <div class="row justify-content-center">
                   <div class="col-12 col-md-6">
-                    <div  class="form-group form-group--relative form-group--stacked active text-box-wrapper text-left">
-                      <label for="f-origen">
-                        Cuenta origen
-                      </label>
-                      <select formControlName="origen" name="tipo" class="custom-select mr-sm-2" id="f-origen">
-                        <option selected *ngFor="let cuenta of cuentas" [value]="cuenta.ncuenta">
-                          {{ cuenta.ncuenta }} - {{ cuenta.saldo | currency:('S/. ') }}
+                    <div
+                      class="form-group form-group--relative form-group--stacked active text-box-wrapper text-left"
+                    >
+                      <label for="f-origen"> Cuenta origen </label>
+                      <select
+                        formControlName="origen"
+                        name="tipo"
+                        class="custom-select mr-sm-2"
+                        id="f-origen"
+                      >
+                        <option
+                          selected
+                          *ngFor="let cuenta of cuentas"
+                          [value]="cuenta.ncuenta"
+                        >
+                          {{ cuenta.ncuenta }} -
+                          {{ cuenta.saldo | currency: "S/. " }}
                         </option>
                       </select>
                     </div>
@@ -26,10 +43,10 @@
                 </div>
                 <div class="row justify-content-center">
                   <div class="col-12 col-md-6">
-                    <div  class="form-group form-group--relative form-group--stacked active text-box-wrapper text-left">
-                      <label for="f-cuenta">
-                        Cuenta destino
-                      </label>
+                    <div
+                      class="form-group form-group--relative form-group--stacked active text-box-wrapper text-left"
+                    >
+                      <label for="f-cuenta"> Cuenta destino </label>
                       <input
                         id="f-cuenta"
                         class="form-control"
@@ -37,7 +54,9 @@
                         autocomplete="off"
                         type="text"
                         formControlName="destino"
-                        placeholder="Ingresaaa tu cuenta de destino">
+                        (keypress)="onlynumber($event)"
+                        placeholder="Ingresaaa tu cuenta de destino"
+                      />
                       <div class="invalid-feedback ng-star-inserted">
                         Este campo es requerido.
                       </div>
@@ -46,10 +65,10 @@
                 </div>
                 <div class="row justify-content-center">
                   <div class="col-12 col-md-6">
-                    <div  class="form-group form-group--relative form-group--stacked active text-box-wrapper text-left">
-                      <label for="f-monto">
-                        Monto
-                      </label>
+                    <div
+                      class="form-group form-group--relative form-group--stacked active text-box-wrapper text-left"
+                    >
+                      <label for="f-monto"> Monto </label>
                       <input
                         id="f-monto"
                         name="monto S/."
@@ -58,6 +77,7 @@
                         placeholder="Ingresa el monto"
                         aria-label="Password"
                         formControlName="monto"
+                        (keypress)="onlynumber($event)"
                       />
                     </div>
                   </div>
@@ -77,4 +97,3 @@
     </div>
   </div>
 </div>
-
