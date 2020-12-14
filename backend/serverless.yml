@@ -1,0 +1,242 @@
+service:
+  name: notificapp-service
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  profile: default
+  websocketApiRouteSelectionExpression: $request.body.action
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - ec2:CreateNetworkInterface
+        - ec2:DescribeNetworkInterfaces
+        - ec2:DeleteNetworkInterface
+      Resource: '*'
+  environment: # Service wide environment variables
+    NODE_ENV: production
+    SECRET: 'AIzaSyCS3cfvhW5LKjXE8VgBkWcX5NmfzQzG6_c'
+    APIG_ENDPOINT:
+      Fn::Join:
+        - ""
+        - - Ref: WebsocketsApi
+          - .execute-api.
+          - Ref: AWS::Region
+          - .amazonaws.com/
+          - ${self:provider.stage}
+
+plugins:
+  - '@hewmen/serverless-plugin-typescript'
+  - serverless-plugin-optimize
+  - serverless-offline
+  # - serverless-plugin-warmup
+
+package:
+  excludeDevDependencies: true
+  exclude:
+    - node_modules/2-thenable
+    - node_modules/@angular-devkit
+    - node_modules/@babel
+    - node_modules/@hewmen
+    - node_modules/@kwsiter
+    - node_modules/@nodelib
+    - node_modules/@protobufjs
+    - node_modules/@schematics
+    - node_modules/@serverless
+    - node_modules/@sindresorhus
+    - node_modules/@szmarczak
+    - node_modules/@tencent-sdk
+    - node_modules/@typescript-eslint
+    - node_modules/@webassemblyjs
+    - node_modules/@xtuc
+    - node_modules/accept
+    - node_modules/acorn*
+    - node_modules/adm-zip
+    - node_modules/agent-base
+    - node_modules/ajv*
+    - node_modules/ammo
+    -
+  include:
+    - src/serverless
+    - node_modules/@nestjs
+    - node_modules/@nuxtjs
+    - node_modules/@sqltools
+    - node_modules/@types
+    - node_modules/@vendia
+    - node_modules/accepts
+    - node_modules/after
+    - node_modules/ansi-*
+    - node_modules/any-promise
+    - node_modules/append-field
+    - node_modules/app-root-path
+    - node_modules/argparse
+    - node_modules/arraybuffer.slice
+    - node_modules/array-flatten
+    - node_modules/async-limiter
+    - node_modules/aws-*
+    - node_modules/axios
+    - node_modules/backo2
+    - node_modules/balanced-match
+    - node_modules/base64*
+    - node_modules/bcryptjs
+    - node_modules/better-assert
+    - node_modules/binary-case
+    - node_modules/blob
+    - node_modules/body-parser
+    - node_modules/brace-expansion
+    - node_modules/buffer*
+    - node_modules/busboy
+    - node_modules/bytes
+    - node_modules/callsite
+    - node_modules/camelcase
+    - node_modules/chalk
+    - node_modules/class-*
+    - node_modules/cli-*
+    - node_modules/cliui
+    - node_modules/color-*
+    - node_modules/component-*
+    - node_modules/concat-*
+    - node_modules/consola
+    - node_modules/content-*
+    - node_modules/cookie*
+    - node_modules/core-util-is
+    - node_modules/cors
+    - node_modules/d
+    - node_modules/debug
+    - node_modules/decamelize
+    - node_modules/depd
+    - node_modules/destroy
+    - node_modules/dicer
+    - node_modules/dotenv*
+    - node_modules/ecdsa-sig-formatter
+    - node_modules/ee-first
+    - node_modules/emoji-regex
+    - node_modules/encodeurl
+    - node_modules/engine.io*
+    - node_modules/es5-ext
+    - node_modules/es6-*
+    - node_modules/escalade
+    - node_modules/escape-*
+    - node_modules/esprima
+    - node_modules/etag
+    - node_modules/event-emitter
+    - node_modules/express
+    - node_modules/ext
+    - node_modules/fast-safe-stringify
+    - node_modules/figlet
+    - node_modules/finalhandler
+    - node_modules/find-up
+    - node_modules/follow-redirects
+    - node_modules/forwarded
+    - node_modules/fresh
+    - node_modules/fs.realpath
+    - node_modules/get-caller-file
+    - node_modules/glob*
+    - node_modules/google-libphonenumber
+    - node_modules/graceful-fs
+    - node_modules/has-*
+    - node_modules/highlight.js
+    - node_modules/http-errors
+    - node_modules/iconv-lite
+    - node_modules/ieee754
+    - node_modules/indexof
+    - node_modules/inflight
+    - node_modules/inherits
+    - node_modules/ipaddr.js
+    - node_modules/isarray
+    - node_modules/is-*
+    - node_modules/iterare
+    - node_modules/jmespath
+    - node_modules/jsonwebtoken
+    - node_modules/js-yaml
+    - node_modules/jwa
+    - node_modules/jws
+    - node_modules/locale-path
+    - node_modules/lodash*
+    - node_modules/lru-queue
+    - node_modules/media-typer
+    - node_modules/memoizee
+    - node_modules/merge-descriptors
+    - node_modules/methods
+    - node_modules/mime*
+    - node_modules/mini*
+    - node_modules/mkdirp
+    - node_modules/ms
+    - node_modules/multer
+    - node_modules/mz
+    - node_modules/negotiator
+    - node_modules/next-tick
+    - node_modules/node-fetch
+    - node_modules/object-*
+    - node_modules/once
+    - node_modules/on-finished
+    - node_modules/packet-reader
+    - node_modules/parent-require
+    - node_modules/parse5*
+    - node_modules/parseuri
+    - node_modules/path-*
+    - node_modules/pg*
+    - node_modules/p-*
+    - node_modules/postgres-*
+    - node_modules/process-nextick-args
+    - node_modules/proxy-addr
+    - node_modules/p-try
+    - node_modules/qs
+    - node_modules/querystring
+    - node_modules/range-parser
+    - node_modules/raw-body
+    - node_modules/readable-stream
+    - node_modules/reflect-metadata
+    - node_modules/requiere-*
+    - node_modules/rimraf
+    - node_modules/rxjs
+    - node_modules/safe-*
+    - node_modules/sax
+    - node_modules/semver
+    - node_modules/send
+    - node_modules/server-static
+    - node_modules/set-blocking
+    - node_modules/setprototypeof
+    - node_modules/sha.js
+    - node_modules/socket.*
+    - node_modules/split2
+    - node_modules/sprintf-js
+    - node_modules/statuses
+    - node_modules/streamsearch
+    - node_modules/string_*
+    - node_modules/strip-ansi
+    - node_modules/supports-color
+    - node_modules/thenify*
+    - node_modules/timers-ext
+    - node_modules/to-array
+    - node_modules/toidentifier
+    - node_modules/tslib
+    - node_modules/type*
+    - node_modules/unpipe
+    - node_modules/util*
+    - node_modules/uuid
+    - node_modules/validatos
+    - node_modules/vary
+    - node_modules/which-module
+    - node_modules/wrap*
+    - node_modules/ws
+    - node_modules/xml*
+    - node_modules/xtend
+    - node_modules/y18n
+    - node_modules/yarg*
+    - node_modules/yeast
+  individually: true
+
+functions:
+  index:
+    handler: src/serverless.handler
+    events:
+      - http: ANY /
+      - http: ANY {proxy+}
+      - websocket:
+          route: $connect
+      - websocket:
+          route: $disconnect
+      - websocket:
+          route: $default

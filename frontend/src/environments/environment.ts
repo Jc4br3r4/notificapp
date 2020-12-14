@@ -5,7 +5,9 @@
 export const environment = {
   production: false,
   API_ENDPOINT: 'http://localhost:3000',
-  wsUrl: 'http://localhost:3001'
+    wsUrl: 'ws://localhost:3001',
+  // wsUrl: 'wss://wrxsvwkkcb.execute-api.us-east-1.amazonaws.com/dev/websocket'
+
 };
 
 /*

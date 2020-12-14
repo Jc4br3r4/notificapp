@@ -39,7 +39,7 @@ import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import {environment} from '../environments/environment';
 import {HumanizePipe} from './pipes/humanize.pipe';
 
-const config: SocketIoConfig = { url: environment.wsUrl, options: { } };
+const config: SocketIoConfig = { url: environment.wsUrl};
 
 @NgModule({
   declarations: [

@@ -11,8 +11,8 @@ export class NotificaApp implements TypeOrmOptionsFactory {
     let server: any;
     if (this.config.get('NODE_ENV') !== 'production') {
       server = {
-        //host: '127.0.0.1',
-        host: 'db',
+        host: '127.0.0.1',
+        // host: 'db',
         port: 5432,
         database: 'notificapp',
         user: 'postgres',

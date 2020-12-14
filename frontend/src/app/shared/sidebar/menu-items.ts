@@ -42,35 +42,35 @@ export const ROUTES: RouteInfo[] = [
       },
     ]
   },
-  {
-    path: '',
-    title: 'Pagos',
-    icon: 'mdi mdi-adjust',
-    class: '',
-    label: '',
-    labelClass: '',
-    extralink: false,
-    submenu: [
-      {
-        path: '/pagos/servicios',
-        title: 'Pagar un servicio',
-        icon: 'mdi mdi-border-all',
-        class: '',
-        label: '',
-        labelClass: '',
-        extralink: false,
-        submenu: []
-      },
-      {
-        path: '/pagos/tarjetas',
-        title: 'Pagar tarjetas de crédito',
-        icon: 'mdi mdi-border-all',
-        class: '',
-        label: '',
-        labelClass: '',
-        extralink: false,
-        submenu: []
-      },
-    ]
-  },
+  // {
+  //   path: '',
+  //   title: 'Pagos',
+  //   icon: 'mdi mdi-adjust',
+  //   class: '',
+  //   label: '',
+  //   labelClass: '',
+  //   extralink: false,
+  //   submenu: [
+  //     {
+  //       path: '/pagos/servicios',
+  //       title: 'Pagar un servicio',
+  //       icon: 'mdi mdi-border-all',
+  //       class: '',
+  //       label: '',
+  //       labelClass: '',
+  //       extralink: false,
+  //       submenu: []
+  //     },
+  //     {
+  //       path: '/pagos/tarjetas',
+  //       title: 'Pagar tarjetas de crédito',
+  //       icon: 'mdi mdi-border-all',
+  //       class: '',
+  //       label: '',
+  //       labelClass: '',
+  //       extralink: false,
+  //       submenu: []
+  //     },
+  //   ]
+  // },
 ];
